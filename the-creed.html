@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.H.E.H — The Creed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E6D1A4; --paper-hi:#ECD9AE; --paper-deep:#D6BC84;
+    --ink:#241A0E; --ink-soft:#54422C;
+    --oxblood:#6E2A20; --oxblood-deep:#58201A;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    background:radial-gradient(125% 70% at 50% 0%, var(--paper-hi) 0%, var(--paper) 50%, var(--paper-deep) 130%) fixed;
+    color:var(--ink); font-family:'EB Garamond', Georgia, serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .room{ max-width:40rem; margin:0 auto; padding:0 clamp(1.4rem,6vw,3rem) clamp(3rem,8vw,5rem); }
+
+  .ornament{ display:flex; align-items:center; justify-content:center; gap:.95rem; }
+  .ornament .line{ height:2px; background:var(--ink-soft); opacity:.5; }
+  .ornament .mark{ color:var(--oxblood-deep); transform:rotate(45deg); display:inline-block; }
+
+  /* MASTHEAD */
+  .masthead{ text-align:center; padding:clamp(3.5rem,12vw,7rem) 0 clamp(2rem,6vw,3rem); }
+  .masthead .ornament{ margin-bottom:clamp(1.8rem,4.5vw,2.5rem); }
+  .masthead .ornament .line{ width:clamp(44px,13vw,84px); }
+  .masthead .ornament .mark{ font-size:.74rem; }
+  .masthead h1{ font-family:'Cinzel',serif; font-weight:700; text-transform:uppercase; font-size:clamp(2.3rem,7.8vw,3.4rem); letter-spacing:.1em; padding-left:.1em; color:var(--oxblood); line-height:1.12; }
+  .masthead .subtitle{ font-family:'Cinzel',serif; font-weight:600; text-transform:uppercase; font-size:clamp(1.45rem,5vw,2.3rem); letter-spacing:.08em; padding-left:.08em; color:var(--ink); margin-top:clamp(.95rem,2.8vw,1.45rem); line-height:1.2; }
+  .masthead .tagline{ font-style:italic; color:var(--ink-soft); font-size:clamp(1rem,2.6vw,1.18rem); margin-top:clamp(1.15rem,3vw,1.65rem); }
+
+  /* DIVIDER */
+  .divider{ display:flex; align-items:center; justify-content:center; gap:1rem; margin:clamp(2.2rem,6vw,3.2rem) 0 clamp(1.6rem,4.5vw,2.4rem); }
+  .divider .line{ height:2px; width:clamp(40px,18vw,120px); background:var(--ink-soft); opacity:.4; }
+  .divider .mark{ color:var(--oxblood-deep); transform:rotate(45deg); display:inline-block; font-size:.72rem; }
+
+  /* PILLARS */
+  .pillar{ padding:clamp(1.7rem,4.5vw,2.5rem) 0; }
+  .pillar + .pillar{ border-top:1px solid rgba(84,66,44,.2); }
+  .pillar .num{ font-family:'Cinzel',serif; font-weight:700; font-size:clamp(2.1rem,7vw,3rem); color:var(--oxblood); opacity:.34; line-height:1; letter-spacing:.04em; }
+  .pillar h2{ font-family:'Cinzel',serif; font-weight:700; text-transform:uppercase; font-size:clamp(1.4rem,4.4vw,1.95rem); letter-spacing:.05em; color:var(--ink); margin:clamp(.35rem,1.3vw,.55rem) 0 clamp(1rem,2.6vw,1.4rem); line-height:1.2; }
+  .pillar .body p{ font-size:clamp(1.08rem,2.7vw,1.235rem); line-height:1.62; color:var(--ink); font-weight:500; margin-bottom:1em; }
+  .pillar .body p:last-child{ margin-bottom:0; }
+  .pillar .key{ color:var(--oxblood-deep); font-weight:600; }
+  .sheh{ font-family:'Cinzel',serif; font-weight:800; letter-spacing:.04em; }
+
+  /* CLOSING */
+  .closing{ text-align:center; padding:clamp(1.8rem,5vw,2.8rem) 0 0; }
+  .closing .ornament{ margin-bottom:clamp(1.8rem,4.5vw,2.6rem); }
+  .closing .ornament .line{ width:clamp(44px,13vw,84px); }
+  .closing .ornament .mark{ font-size:.74rem; }
+  .closing blockquote{ font-style:italic; font-size:clamp(1.3rem,3.8vw,1.75rem); line-height:1.4; color:var(--oxblood); max-width:32rem; margin:0 auto; }
+  .closing .gloss{ font-size:clamp(1.04rem,2.6vw,1.18rem); line-height:1.56; color:var(--ink-soft); max-width:31rem; margin:clamp(1.3rem,3.5vw,1.8rem) auto 0; }
+  .closing .gloss em{ font-style:italic; color:var(--ink); font-weight:600; }
+  .byline{ margin-top:clamp(2.2rem,5.5vw,3.2rem); }
+  .byline a{ font-family:'EB Garamond',serif; font-style:italic; font-weight:600; font-size:clamp(1.02rem,2.6vw,1.16rem); color:var(--oxblood-deep); text-decoration:none; border-bottom:1px solid rgba(110,42,32,.32); transition:color .18s ease, border-color .18s ease; }
+  .byline a:hover{ color:var(--oxblood); border-color:var(--oxblood); }
+  .byline .arrow{ font-style:normal; margin-left:.45em; display:inline-block; transition:transform .25s ease; }
+  .byline a:hover .arrow{ transform:translateX(4px); }
+
+  @media (prefers-reduced-motion: reduce){ .byline a,.byline .arrow{ transition:none; } }
+</style>
+</head>
+<body>
+<a href="index.html" aria-label="Back to home" style="position:fixed;top:1rem;left:1rem;z-index:200;font-family:'Cinzel',Georgia,serif;font-size:.64rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#6E2A20;text-decoration:none;background:rgba(236,217,174,.82);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);padding:.5rem .82rem;border:1px solid rgba(110,74,18,.22);border-radius:5px;">&larr;&nbsp; Home</a>
+
+  <main class="room">
+
+    <header class="masthead">
+      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+      <h1>The Creed</h1>
+      <div class="subtitle">Start Hard. End Hard.</div>
+      <div class="tagline">The whole belief, written down.</div>
+    </header>
+
+    <div class="divider"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+
+    <article>
+
+      <section class="pillar">
+        <div class="num">01</div>
+        <h2>Built not given</h2>
+        <div class="body">
+          <p>You came into this world with nothing — couldn't walk, couldn't speak, didn't know a thing. <span class="key">Everything you are, you built.</span></p>
+          <p>That's the deal: life hands you nothing easy, and that's not a flaw. Easy pays nothing. The reward has always lived on the hard side of things.</p>
+        </div>
+      </section>
+
+      <section class="pillar">
+        <div class="num">02</div>
+        <h2>Start hard</h2>
+        <div class="body">
+          <p>Whatever you're going to do — do it like you mean it. Nothing good was ever built on half effort. Not a trade, not a marriage, not a skill, not a name.</p>
+          <p>Starting hard means showing up early, caring about the work, and giving it your whole heart from the first hour. <span class="key">If it's worth doing, it's worth doing all the way.</span></p>
+        </div>
+      </section>
+
+      <section class="pillar">
+        <div class="num">03</div>
+        <h2>End hard</h2>
+        <div class="body">
+          <p>Anybody can start. Ending hard is what separates you. It means finishing what you started — and finishing it the way you began it, with your whole heart still in it.</p>
+          <p>If there's a finish line, you're crossing it. Not limping across, not coasting in — crossing it the way you left the gate. <span class="key">Your word is the start. Keeping it is the end.</span></p>
+        </div>
+      </section>
+
+      <section class="pillar">
+        <div class="num">04</div>
+        <h2>Hard not harsh</h2>
+        <div class="body">
+          <p>Your path gets tested two ways. The world tries to pull you off it — a thousand distractions, all of them louder than what matters. And the road itself tries to harden you into something ugly. Hold against both.</p>
+          <p>Keep your eyes on what you chose, and keep your heart right while you chase it. <span class="key">Hard doesn't mean harsh.</span> Be a warrior in a garden — fierce enough to take any city, wise enough to know the only thing worth conquering is yourself.</p>
+        </div>
+      </section>
+
+      <section class="pillar">
+        <div class="num">05</div>
+        <h2>The Long Game</h2>
+        <div class="body">
+          <p>Some roads have finish lines. Life isn't one of them. There's no trophy at the end of this walk — the walk is the point. So play the long game.</p>
+          <p>Rest when you need to — that's not weakness, that's maintenance. Change the route if the route was wrong — recalibrating isn't quitting, it's how you stay in the fight. Take care of yourself, and take care of business, all the way down the road.</p>
+          <p>You don't quit on your goals, and you don't quit on who you are. This isn't a phase or a program. It's a lifestyle. It's a commitment. <span class="key">It's being <span class="sheh">SHEH</span>.</span></p>
+        </div>
+      </section>
+
+    </article>
+
+    <footer class="closing">
+      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+      <blockquote>&ldquo;Start hard today, be harder than yesterday, for today is yesterday&rsquo;s tomorrow.&rdquo;</blockquote>
+      <p class="gloss">Today is yesterday&rsquo;s tomorrow: the future you promised yourself yesterday is this morning, already here. There is no &ldquo;later.&rdquo; <em>Later is now.</em></p>
+      <div class="byline"><a href="our-story.html">Built by two friends who hold themselves to the same code<span class="arrow">&rarr;</span></a></div>
+    </footer>
+
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.H.E.H — Our Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E6D1A4; --paper-hi:#ECD9AE; --paper-deep:#D6BC84;
+    --ink:#241A0E; --ink-soft:#54422C;
+    --bronze:#A6741F;       /* full — large, gleaming */
+    --bronze-deep:#6E4A12;  /* deep — small, legible */
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background:var(--paper); color:var(--ink); font-family:'EB Garamond', Georgia, serif; }
+
+  .story{
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:clamp(3rem,9vw,7rem) clamp(1.5rem,6vw,3rem);
+    background:radial-gradient(135% 95% at 50% 30%, var(--paper-hi) 0%, var(--paper) 46%, var(--paper-deep) 125%);
+  }
+  .inner{ max-width:37rem; width:100%; }
+
+  .ornament{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin-bottom:clamp(1.4rem,3.5vw,2rem); }
+  .ornament .line{ height:2px; width:clamp(40px,12vw,76px); background:var(--ink-soft); opacity:.5; }
+  .ornament .mark{ font-size:.72rem; color:var(--bronze-deep); transform:rotate(45deg); }
+
+  .head{ text-align:center; }
+  .head h1{ font-family:'Cinzel',serif; font-weight:700; text-transform:uppercase; font-size:clamp(1.6rem,5.2vw,2.35rem); letter-spacing:.15em; padding-left:.15em; color:var(--ink); }
+  .head .sub{ font-style:italic; color:var(--ink-soft); font-size:clamp(1.04rem,2.7vw,1.22rem); margin-top:.75rem; }
+
+  .passage{ margin-top:clamp(2rem,5vw,2.9rem); }
+  .passage p{ font-size:clamp(1.16rem,3.2vw,1.46rem); line-height:1.55; color:var(--ink); margin-bottom:1.15em; font-weight:500; }
+  .passage p:last-of-type{ margin-bottom:0; }
+  .passage .dropcap::first-letter{ font-family:'Cinzel',serif; font-weight:800; float:left; color:var(--bronze); font-size:3.9em; line-height:.76; padding:.04em .12em 0 0; }
+  .quiet{ color:var(--ink-soft); }
+
+  .enter-rule{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin:clamp(2.3rem,6vw,3.2rem) 0 1.4rem; }
+  .enter-rule .line{ height:2px; width:clamp(48px,16vw,96px); background:var(--ink-soft); opacity:.45; }
+  .enter-rule .mark{ font-size:.7rem; color:var(--bronze-deep); transform:rotate(45deg); }
+  .enter{ display:block; text-align:center; text-decoration:none; font-style:italic; font-weight:600; font-size:clamp(1.04rem,2.7vw,1.22rem); color:var(--bronze-deep); }
+  .enter .arrow{ font-style:normal; margin-left:.5em; transition:transform .25s ease; display:inline-block; }
+  .story:hover .enter .arrow{ transform:translateX(5px); }
+
+  @media (prefers-reduced-motion: reduce){ .enter .arrow{ transition:none; } }
+</style>
+</head>
+<body>
+
+  <a class="story" href="#" style="text-decoration:none;">
+    <div class="inner">
+      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+
+      <div class="head">
+        <h1>Our Story</h1>
+        <div class="sub">Two friends, one code.</div>
+      </div>
+
+      <div class="passage">
+        <p class="dropcap">We're Jacob and Patrick — friends since middle school, through every workout, every job, and the long stretch of years where life gets heavy and you find out who's still standing beside you.</p>
+        <p>What we're building here is bigger than anything we'll ever hand you: the whole idea behind the name. The mindset, the miles, the long game, and the simple belief that ordinary people doing the hard thing right is worth it.</p>
+        <p>Because somewhere in the miles, we figured out the rest of it: life needs a playbook, a system, a mindset. Today is yesterday's tomorrow. So get after it.</p>
+      </div>
+
+      <div class="enter-rule"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+      <span class="enter">The whole story, this way.<span class="arrow">→</span></span>
+    </div>
+  </a>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.H.E.H — Join</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background:#0f0a06; color:#E6D1A4; font-family:'EB Garamond', Georgia, serif; }
+
+  /* JOIN — dark, but lamplit, not machine-room */
+  .join{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:clamp(3.8rem,10vw,6.5rem) clamp(1.5rem,6vw,3rem);
+    background:
+      radial-gradient(78% 48% at 50% -6%, rgba(201,119,46,.12), transparent 62%),
+      radial-gradient(130% 100% at 50% 0%, #1d160e 0%, #0f0a06 100%);
+  }
+  .inner{ max-width:34rem; width:100%; text-align:center; }
+
+  .ornament{ display:flex; align-items:center; justify-content:center; gap:1rem; margin-bottom:clamp(1.5rem,4vw,2rem); }
+  .ornament .line{ height:1px; width:clamp(46px,14vw,92px); background:linear-gradient(90deg, transparent, rgba(201,119,46,.5)); }
+  .ornament .line.r{ background:linear-gradient(90deg, rgba(201,119,46,.5), transparent); }
+  .ornament .mark{ font-size:.7rem; color:#C9772E; transform:rotate(45deg); }
+
+  .head h2{ font-family:'Cinzel',serif; font-weight:700; text-transform:uppercase; font-size:clamp(1.55rem,5.2vw,2.2rem); letter-spacing:.14em; padding-left:.14em; color:#F0DDB6; }
+  .head .sub{ font-style:italic; color:rgba(230,209,164,.56); font-size:clamp(1.04rem,2.7vw,1.2rem); margin-top:.8rem; line-height:1.42; }
+
+  .signup{
+    display:flex; align-items:stretch; margin-top:clamp(1.9rem,4.5vw,2.5rem);
+    background:#140e07;
+    border:1px solid #4a361c; border-radius:9px; overflow:hidden;
+    box-shadow: inset 0 1px 0 rgba(230,209,164,.045), 0 3px 18px rgba(0,0,0,.34);
+    transition:border-color .2s ease, box-shadow .2s ease;
+  }
+  .signup:focus-within{ border-color:#C9772E; box-shadow: inset 0 1px 0 rgba(230,209,164,.05), 0 0 0 1px rgba(201,119,46,.22), 0 3px 22px rgba(0,0,0,.4); }
+  .signup input{
+    flex:1; min-width:0; background:transparent; border:none;
+    padding:1.05rem 1.25rem; color:#F0DDB6;
+    font-family:'EB Garamond',serif; font-size:clamp(1.05rem,2.7vw,1.16rem);
+  }
+  .signup input::placeholder{ color:rgba(230,209,164,.32); font-style:italic; }
+  .signup input:focus{ outline:none; }
+  .signup button{
+    flex-shrink:0; cursor:pointer; border:none;
+    background:#C9772E; color:#1a1108;
+    padding:0 clamp(1.3rem,4.5vw,1.75rem);
+    font-family:'Cinzel',serif; font-weight:600; text-transform:uppercase; font-size:clamp(.7rem,2vw,.78rem); letter-spacing:.13em;
+    transition:background .2s ease;
+  }
+  .signup button:hover{ background:#DC8E3F; }
+
+  .fineprint{ font-style:italic; color:rgba(230,209,164,.4); font-size:clamp(.92rem,2.3vw,1.02rem); margin-top:clamp(1.1rem,3vw,1.45rem); }
+
+  @media (max-width:480px){
+    .signup{ flex-direction:column; }
+    .signup button{ padding:.9rem; border-top:1px solid #4a361c; }
+  }
+  .signup-note{ font-family:'EB Garamond', Georgia, serif; font-style:italic; line-height:1.55;
+    font-size:clamp(1rem,2.6vw,1.14rem); color:rgba(230,209,164,.72); }
+  .signup-note a{ color:#C9772E; font-style:normal; text-decoration:none; border-bottom:1px solid rgba(201,119,46,.35); transition:color .18s ease; }
+  .signup-note a:hover{ color:#DC8E3F; }
+  @media (prefers-reduced-motion: reduce){ .signup,.signup button{ transition:none; } }
+</style>
+</head>
+<body>
+
+  <section class="join">
+    <div class="inner">
+      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line r"></span></div>
+      <div class="head">
+        <h2>Become a SHEH</h2>
+        <div class="sub">New writing, new work, and a word when it's worth your time.</div>
+      </div>
+      <div class="signup" id="joinRow">
+        <input type="email" placeholder="Your email" aria-label="Email address" id="joinField" />
+        <button type="button" id="joinBtn">Count me in</button>
+      </div>
+      <div class="signup-note" id="joinNote" hidden>Sign-ups open soon &mdash; you're early. Want in now? <a href="mailto:the1sheh@gmail.com?subject=Count%20me%20in">Email us.</a></div>
+      <div class="fineprint">No spam. No noise. Just the real stuff.</div>
+    </div>
+  </section>
+  <script>
+    (function(){
+      var btn=document.getElementById('joinBtn'), field=document.getElementById('joinField'),
+          row=document.getElementById('joinRow'), note=document.getElementById('joinNote');
+      function park(){ if(row) row.style.display='none'; if(note) note.hidden=false; }
+      if(btn) btn.addEventListener('click', park);
+      if(field) field.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); park(); } });
+    })();
+  </script>
+
+</body>
+</html>

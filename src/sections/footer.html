@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.H.E.H — Footer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background:#0d0905; color:#E6D1A4; font-family:'EB Garamond', Georgia, serif; }
+
+  /* FOOTER — the lamp, lowest. The quiet close of the dark wing. */
+  .foot{
+    padding:clamp(3.4rem,9vw,5.2rem) clamp(1.5rem,6vw,3rem) clamp(2rem,5vw,3rem);
+    background:radial-gradient(85% 65% at 50% 0%, #1a130b 0%, #0d0905 100%);
+    text-align:center;
+  }
+  .inner{ max-width:40rem; margin:0 auto; }
+
+  .ornament{ display:flex; align-items:center; justify-content:center; gap:1rem; margin-bottom:clamp(1.5rem,4vw,2rem); }
+  .ornament .line{ height:1px; width:clamp(46px,14vw,90px); background:linear-gradient(90deg, transparent, rgba(201,119,46,.5)); }
+  .ornament .line.r{ background:linear-gradient(90deg, rgba(201,119,46,.5), transparent); }
+  .ornament .mark{ font-size:.7rem; color:#C9772E; transform:rotate(45deg); }
+
+  .brand{ font-family:'Cinzel',serif; font-weight:700; text-transform:uppercase; font-size:clamp(1.4rem,4.5vw,1.9rem); letter-spacing:.3em; padding-left:.3em; color:#F0DDB6; }
+  .motto{ font-family:'Cinzel',serif; font-weight:500; text-transform:uppercase; font-size:clamp(.62rem,1.8vw,.72rem); letter-spacing:.26em; padding-left:.26em; color:#C9772E; margin-top:.9rem; }
+
+  .nav{ display:flex; flex-wrap:wrap; justify-content:center; gap:.55rem 1.6rem; margin-top:clamp(1.9rem,4.5vw,2.5rem); }
+  .nav a{ text-decoration:none; font-family:'EB Garamond',serif; font-size:1.06rem; color:rgba(230,209,164,.62); transition:color .18s ease; }
+  .nav a:hover{ color:#F0DDB6; }
+
+  .bars{ margin-top:clamp(1.6rem,4vw,2.1rem); font-style:italic; font-size:clamp(.96rem,2.4vw,1.05rem); color:rgba(230,209,164,.46); }
+  .bars a{ color:#C9772E; text-decoration:none; font-style:normal; border-bottom:1px solid rgba(201,119,46,.35); transition:color .18s ease; }
+  .bars a:hover{ color:#DC8E3F; }
+
+  .divider{ height:1px; background:linear-gradient(90deg, transparent, rgba(230,209,164,.13), transparent); margin:clamp(2rem,5vw,2.8rem) 0 clamp(1.5rem,3.6vw,1.9rem); }
+
+  .social{ display:flex; justify-content:center; gap:1.05rem; margin-bottom:1.15rem; }
+  .social a{ width:38px; height:38px; border:1px solid #4a361c; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#C9772E; transition:border-color .18s ease, color .18s ease, transform .18s ease; }
+  .social a:hover{ border-color:#C9772E; color:#DC8E3F; transform:translateY(-2px); }
+
+  .copy{ font-size:.93rem; color:rgba(230,209,164,.4); }
+
+  @media (prefers-reduced-motion: reduce){ .nav a,.social a,.bars a{ transition:none; } }
+</style>
+</head>
+<body>
+
+  <footer class="foot">
+    <div class="inner">
+      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line r"></span></div>
+
+      <div class="brand">S.H.E.H</div>
+      <div class="motto">Start Hard. End Hard.</div>
+
+      <nav class="nav">
+        <a href="#story">Our Story</a>
+        <a href="#manuscripts">Manuscripts</a>
+        <a href="#illuminations">Illuminations</a>
+        <a href="#longtake">The Long Take</a>
+        <a href="#creed">The Creed</a>
+      </nav>
+
+      <div class="bars">Here for the merch? Find it at <a href="https://shehthrive.com">shehthrive.com</a>.</div>
+
+      <div class="divider"></div>
+
+      <div class="social">
+        <a href="https://www.instagram.com/the1sheh" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.3" cy="6.7" r="1.05" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://x.com/the1sheh" aria-label="X"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4.5 4.5 L19.5 19.5 M19.5 4.5 L4.5 19.5"/></svg></a>
+        <a href="https://www.youtube.com/@the1sheh" aria-label="YouTube"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="2.5" y="5.7" width="19" height="12.6" rx="3.6"/><path d="M10.4 9.1 L15.3 12 L10.4 14.9 Z" fill="currentColor" stroke="none"/></svg></a>
+        <a href="mailto:the1sheh@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.6 6.6 L12 13 L20.4 6.6"/></svg></a>
+      </div>
+
+      <div class="copy">© 2026 The S.H.E.H Company</div>
+    </div>
+  </footer>
+
+</body>
+</html>

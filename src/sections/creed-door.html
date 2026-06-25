@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.H.E.H — The Creed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E6D1A4; --paper-hi:#ECD9AE; --paper-deep:#D6BC84;
+    --ink:#241A0E; --ink-soft:#54422C;
+    --oxblood:#6E2A20;        /* full — large, on light */
+    --oxblood-deep:#58201A;   /* deep — small, on light */
+    --oxblood-bright:#CF6A50; /* lit ember — accents on the dark lower half */
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background:#0f0a06; color:var(--ink); font-family:'EB Garamond', Georgia, serif; }
+
+  /* THE CREED — the bridge: parchment up top, darkening into the lamplit wing below */
+  .creed{
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center;
+    padding:clamp(3rem,8vw,5.5rem) clamp(1.5rem,6vw,3rem) clamp(2.6rem,7vw,4rem);
+    background:linear-gradient(180deg,
+      var(--paper-hi) 0%,
+      var(--paper) 32%,
+      var(--paper-deep) 52%,
+      #7a5838 63%,
+      #46331f 74%,
+      #241a10 87%,
+      #14100a 100%);
+    cursor:pointer; text-decoration:none;
+  }
+  .creed-inner{ max-width:37rem; width:100%; flex:1; display:flex; flex-direction:column; justify-content:space-between; }
+
+  .ornament{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin-bottom:clamp(1.3rem,3.5vw,1.9rem); }
+  .ornament .line{ height:2px; width:clamp(40px,12vw,76px); background:var(--ink-soft); opacity:.55; }
+  .ornament .mark{ font-size:.72rem; color:var(--oxblood-deep); transform:rotate(45deg); }
+
+  .title{ font-family:'Cinzel',serif; font-weight:700; text-transform:uppercase; text-align:center; font-size:clamp(1.9rem,6vw,2.7rem); letter-spacing:.14em; padding-left:.14em; color:var(--oxblood); margin-bottom:clamp(1.7rem,4.5vw,2.5rem); }
+
+  .passage p{ font-size:clamp(1.16rem,3.2vw,1.46rem); line-height:1.54; color:var(--ink); margin-bottom:1.12em; font-weight:500; }
+  .passage p:last-of-type{ margin-bottom:0; }
+  .passage .dropcap::first-letter{ font-family:'Cinzel',serif; font-weight:800; float:left; color:var(--oxblood); font-size:4em; line-height:.74; padding:.04em .12em 0 0; }
+  .pivot{ font-style:italic; font-weight:600; }
+  .sheh{ font-family:'Cinzel',serif; font-weight:800; letter-spacing:.05em; }
+
+  .bottom{ margin-top:clamp(2.6rem,7vw,4rem); }
+  .enter-rule{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin-bottom:1.3rem; }
+  .enter-rule .line{ height:1px; width:clamp(48px,16vw,96px); background:rgba(230,209,164,.3); }
+  .enter-rule .mark{ font-size:.7rem; color:var(--oxblood-bright); transform:rotate(45deg); }
+  .enter{ display:block; text-align:center; text-decoration:none; font-style:italic; font-weight:600; font-size:clamp(1.04rem,2.7vw,1.22rem); color:var(--oxblood-bright); }
+  .enter .arrow{ font-style:normal; margin-left:.5em; transition:transform .25s ease; display:inline-block; }
+  .creed:hover .enter .arrow{ transform:translateX(5px); }
+
+  @media (prefers-reduced-motion: reduce){ .enter .arrow{ transition:none; } }
+</style>
+</head>
+<body>
+
+  <a class="creed" href="#">
+    <div class="creed-inner">
+
+      <div class="top">
+        <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+        <h1 class="title">The Creed</h1>
+        <div class="passage">
+          <p class="dropcap">You already know the feeling. The alarm nobody set. The work that calls when no one's keeping score. The word you keep whether anyone's watching or not.</p>
+          <p class="pivot">That's not a mood. It's a decision.</p>
+          <p>To walk the long road, with purpose. To keep showing up. To take the road less traveled for the challenge it holds. The easy path never paid.</p>
+          <p>You build yourself by hand — through sweat, blood, and tears, for as long as it takes. Not a phase. Not a program. A lifestyle.</p>
+          <p>We call it <span class="sheh">SHEH</span>.</p>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <div class="enter-rule"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+        <span class="enter">This is the short of it. The rest lives here.<span class="arrow">&rarr;</span></span>
+      </div>
+
+    </div>
+  </a>
+
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.H.E.H — Site 2 Hero (time-of-day preview)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{ --cream:#ECDCB8; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html,body{ background:#05100E; }
+
+  /* ===== the four hours — only the sky + light change; the ground is constant ===== */
+  .hero{
+    --sky-top:#15263F; --sky-mid:#3A5870; --sky-low:#8AA4B2;
+    --glow-core:#F3CDB2; --glow-core-op:.30; --glow-cool:#B9C6CC; --glow-cool-op:.26;
+    --daysun-op:0; --star-op:.16; --moon-op:0;
+    --range:#34505E; --rim:#7E98A4; --crest:#E6D2B6; --crest-bright:#F6E8D0;
+    --ground:#05100E;
+  }
+  .hero.t-night{
+    --sky-top:#05091C; --sky-mid:#070E22; --sky-low:#0A1628;
+    --glow-core:#9FB6C2; --glow-core-op:.03; --glow-cool:#7C9DB0; --glow-cool-op:.03;
+    --daysun-op:0; --star-op:1; --moon-op:1;
+    --range:#0A1E26; --rim:#3A5562; --crest:#B6CEDC; --crest-bright:#E4EDF2;
+  }
+  .hero.t-dawn{
+    --sky-top:#15263F; --sky-mid:#3A5870; --sky-low:#8AA4B2;
+    --glow-core:#F3CDB2; --glow-core-op:.30; --glow-cool:#B9C6CC; --glow-cool-op:.26;
+    --daysun-op:0; --star-op:.16; --moon-op:0;
+    --range:#34505E; --rim:#7E98A4; --crest:#E6D2B6; --crest-bright:#F6E8D0;
+  }
+  .hero.t-day{
+    --sky-top:#1F4660; --sky-mid:#477A92; --sky-low:#BFD2C9;
+    --glow-core:#F3E6C8; --glow-core-op:.28; --glow-cool:#CFE0D8; --glow-cool-op:.16;
+    --daysun-op:1; --star-op:0; --moon-op:0;
+    --range:#3C5E66; --rim:#9DBAC0; --crest:#F2DCA8; --crest-bright:#FBEFD4;
+  }
+  .hero.t-dusk{
+    --sky-top:#101A33; --sky-mid:#33263F; --sky-low:#7A3A2C;
+    --glow-core:#F0852B; --glow-core-op:.34; --glow-cool:#B95A37; --glow-cool-op:.18;
+    --daysun-op:0; --star-op:.45; --moon-op:0;
+    --range:#241A2A; --rim:#7A4A4A; --crest:#F0852B; --crest-bright:#FFC074;
+  }
+
+  .hero{ position:relative; width:100vw; height:100vh; height:100svh; overflow:hidden; }
+  .scene{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+
+  .content{
+    position:absolute; z-index:5;
+    left:clamp(1.4rem, 6vw, 6rem);
+    top:clamp(2.4rem, 20vh, 12rem);
+    text-align:left; max-width:min(90vw, 560px);
+  }
+  .wordmark{
+    font-family:'Cinzel', Georgia, serif; font-weight:800;
+    font-size:clamp(2.7rem, 9.5vw, 6.1rem); letter-spacing:.075em;
+    line-height:1.05; color:var(--cream); padding-left:.075em;
+  }
+  .motto{
+    font-family:'Cinzel', Georgia, serif; font-weight:600;
+    text-transform:uppercase; letter-spacing:.26em;
+    font-size:clamp(.7rem, 2vw, .94rem);
+    color:rgba(236,220,184,.9); margin-top:clamp(1.1rem, 2.6vw, 1.6rem); padding-left:.26em;
+  }
+
+  .foot{
+    position:absolute; z-index:5; left:50%;
+    bottom:clamp(22px, 4.5vh, 40px);
+    transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center;
+    gap:clamp(14px, 2.4vh, 22px); text-align:center;
+  }
+  .lede{
+    font-family:'EB Garamond', Georgia, serif; font-weight:500; font-style:italic;
+    font-size:clamp(1.08rem, 3vw, 1.4rem); letter-spacing:.01em;
+    color:rgba(236,220,184,.92);
+  }
+  .chev{ opacity:.4; animation:bob 2.8s ease-in-out infinite; }
+  .chev svg{ display:block; }
+
+
+  /* motion */
+  .crest{ stroke-dasharray:2700; stroke-dashoffset:2700; animation:draw 1.4s cubic-bezier(.3,.7,.2,1) .35s forwards; }
+  .content > *{ opacity:0; animation:rise .75s cubic-bezier(.2,.8,.2,1) forwards; }
+  .wordmark{ animation-delay:.15s; }
+  .motto{ animation-delay:.42s; }
+  .lede{ opacity:0; animation:rise .75s cubic-bezier(.2,.8,.2,1) .9s forwards; }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  @keyframes rise{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+  @keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
+  @media (prefers-reduced-motion: reduce){
+    .crest{ stroke-dashoffset:0; animation:none; }
+    .content > *, .lede{ opacity:1; animation:none; }
+    .chev{ animation:none; }
+  }
+</style>
+</head>
+<body>
+  <main class="hero t-dawn">
+    <svg class="scene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1000" gradientUnits="userSpaceOnUse">
+          <stop offset="0" style="stop-color:var(--sky-top)"/>
+          <stop offset="0.46" style="stop-color:var(--sky-mid)"/>
+          <stop offset="0.72" style="stop-color:var(--sky-low)"/>
+        </linearGradient>
+        <radialGradient id="glow" cx="820" cy="672" r="640" gradientUnits="userSpaceOnUse">
+          <stop offset="0" style="stop-color:var(--glow-core); stop-opacity:var(--glow-core-op)"/>
+          <stop offset="0.16" style="stop-color:var(--glow-cool); stop-opacity:var(--glow-cool-op)"/>
+          <stop offset="0.5" style="stop-color:var(--glow-cool); stop-opacity:0.06"/>
+          <stop offset="1" style="stop-color:var(--glow-cool); stop-opacity:0"/>
+        </radialGradient>
+        <radialGradient id="daysun" cx="1090" cy="300" r="360" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#FBEFD0" stop-opacity="0.55"/>
+          <stop offset="0.4" stop-color="#FBEFD0" stop-opacity="0.13"/>
+          <stop offset="1" stop-color="#FBEFD0" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="halo" cx="1090" cy="330" r="200" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#BFD3DE" stop-opacity="0.22"/>
+          <stop offset="0.42" stop-color="#BFD3DE" stop-opacity="0.07"/>
+          <stop offset="1" stop-color="#BFD3DE" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="moon" cx="1064" cy="306" r="112" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#F3F6F9"/>
+          <stop offset="0.7" stop-color="#E2E9EE"/>
+          <stop offset="1" stop-color="#C7D5DE"/>
+        </radialGradient>
+      </defs>
+
+      <!-- sky + warm glow + (daytime) high sun glow -->
+      <rect x="0" y="0" width="1600" height="1000" fill="url(#sky)"/>
+      <rect x="0" y="0" width="1600" height="1000" fill="url(#glow)"/>
+      <rect x="0" y="0" width="1600" height="1000" fill="url(#daysun)" style="opacity:var(--daysun-op)"/>
+
+      <!-- stars -->
+      <g fill="#CBD8E0" style="opacity:var(--star-op)">
+        <circle cx="180" cy="120" r="1.4" opacity="0.5"/>
+        <circle cx="320" cy="80" r="1" opacity="0.42"/>
+        <circle cx="470" cy="150" r="1.2" opacity="0.45"/>
+        <circle cx="640" cy="70" r="1" opacity="0.42"/>
+        <circle cx="760" cy="138" r="1.5" opacity="0.5"/>
+        <circle cx="900" cy="90" r="1" opacity="0.4"/>
+        <circle cx="1290" cy="120" r="1.3" opacity="0.48"/>
+        <circle cx="1420" cy="200" r="1" opacity="0.38"/>
+        <circle cx="1500" cy="92" r="1.5" opacity="0.48"/>
+        <circle cx="1360" cy="430" r="1" opacity="0.28"/>
+        <circle cx="240" cy="300" r="1.1" opacity="0.4"/>
+        <circle cx="120" cy="430" r="1" opacity="0.26"/>
+        <circle cx="560" cy="300" r="1" opacity="0.32"/>
+        <circle cx="1480" cy="360" r="1.1" opacity="0.34"/>
+      </g>
+
+      <!-- moon (night + dawn) -->
+      <g style="opacity:var(--moon-op)">
+        <circle cx="1090" cy="330" r="200" fill="url(#halo)"/>
+        <circle cx="1090" cy="330" r="86" fill="url(#moon)"/>
+      </g>
+
+      <!-- distant range -->
+      <path d="M0,1000 L0,620 L260,576 L520,600 L760,558 L1010,592 L1280,560 L1600,588 L1600,1000 Z" style="fill:var(--range)"/>
+      <path d="M0,620 L260,576 L520,600 L760,558 L1010,592 L1280,560 L1600,588" fill="none" stroke-width="1.6" opacity="0.7" style="stroke:var(--rim)"/>
+
+      <!-- main ridge (constant silhouette) -->
+      <path d="M0,1000 L0,724 L220,652 L430,616 L560,474 L820,608 L1080,560 L1340,632 L1600,664 L1600,1000 Z" fill="#06141A"/>
+
+      <!-- light on the crest -->
+      <path class="crest" d="M0,724 L220,652 L430,616 L560,474 L820,608 L1080,560 L1340,632 L1600,664"
+            fill="none" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round" opacity="0.92" style="stroke:var(--crest)"/>
+      <path class="crest" d="M430,616 L560,474 L820,608" fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" opacity="0.9" style="stroke:var(--crest-bright)"/>
+
+      <!-- foreground (constant — the hand-off color) -->
+      <path d="M0,1000 L0,904 Q320,888 660,898 Q1010,908 1330,892 Q1480,886 1600,894 L1600,1000 Z" style="fill:var(--ground)"/>
+    </svg>
+
+    <div class="content">
+      <div class="wordmark">S.H.E.H</div>
+      <div class="motto">Start Hard. End Hard.</div>
+    </div>
+
+    <div class="foot">
+      <div class="lede">Make today the peak.</div>
+      <div class="chev" aria-hidden="true">
+        <svg width="22" height="13" viewBox="0 0 22 13" fill="none">
+          <path d="M1 1.5L11 11L21 1.5" stroke="#ECDCB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </main>
+
+
+  <script>
+    // The hero reads the visitor's own local clock and picks its hour.
+    const hero = document.querySelector('.hero');
+    const phases = ['t-night','t-dawn','t-day','t-dusk'];
+    function clockPhase(){
+      const h = new Date().getHours();
+      if(h >= 5  && h < 8)  return 't-dawn';   // first light
+      if(h >= 8  && h < 17) return 't-day';    // daylight
+      if(h >= 17 && h < 20) return 't-dusk';   // ember hour
+      return 't-night';                        // dead of night
+    }
+    hero.classList.remove(...phases);
+    hero.classList.add(clockPhase());
+  </script>
+</body>
+</html>

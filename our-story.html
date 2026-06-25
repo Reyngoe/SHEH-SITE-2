@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.H.E.H — Our Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E6D1A4; --paper-hi:#ECD9AE; --paper-deep:#D6BC84;
+    --ink:#241A0E; --ink-soft:#54422C;
+    --bronze:#A6741F;       /* full — large, gleaming */
+    --bronze-deep:#6E4A12;  /* deep — small, legible */
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    background:radial-gradient(125% 70% at 50% 0%, var(--paper-hi) 0%, var(--paper) 50%, var(--paper-deep) 130%) fixed;
+    color:var(--ink);
+    font-family:'EB Garamond', Georgia, serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .room{ max-width:40rem; margin:0 auto; padding:0 clamp(1.4rem,6vw,3rem) clamp(3rem,8vw,5rem); }
+
+  /* shared ornament */
+  .ornament{ display:flex; align-items:center; justify-content:center; gap:.95rem; }
+  .ornament .line{ height:2px; background:var(--ink-soft); opacity:.5; }
+  .ornament .mark{ color:var(--bronze-deep); transform:rotate(45deg); display:inline-block; }
+
+  /* MASTHEAD */
+  .masthead{ text-align:center; padding:clamp(3.5rem,12vw,7rem) 0 clamp(2.4rem,7vw,3.8rem); }
+  .masthead .ornament{ margin-bottom:clamp(1.5rem,4vw,2.2rem); }
+  .masthead .ornament .line{ width:clamp(44px,13vw,84px); }
+  .masthead .ornament .mark{ font-size:.74rem; }
+  .kicker-top{ font-family:'Cinzel',serif; font-weight:600; text-transform:uppercase; letter-spacing:.3em; font-size:.74rem; color:var(--bronze-deep); padding-left:.3em; }
+  .masthead h1{ font-family:'Cinzel',serif; font-weight:700; text-transform:uppercase; font-size:clamp(2.1rem,7vw,3.1rem); letter-spacing:.11em; padding-left:.11em; color:var(--ink); margin:clamp(.85rem,2.4vw,1.15rem) 0 0; line-height:1.12; }
+  .masthead .place{ font-style:italic; color:var(--ink-soft); font-size:clamp(1rem,2.6vw,1.18rem); margin-top:.7rem; }
+
+  /* CHAPTER */
+  .chapter{ padding:clamp(1rem,2.5vw,1.5rem) 0; }
+  .kicker{ font-family:'Cinzel',serif; font-weight:600; text-transform:uppercase; letter-spacing:.24em; font-size:.72rem; color:var(--bronze-deep); display:flex; align-items:center; gap:.7em; margin-bottom:clamp(.7rem,2vw,1rem); }
+  .kicker .dot{ color:var(--bronze); transform:rotate(45deg); display:inline-block; font-size:.62rem; }
+  .chapter h2{ font-family:'Cinzel',serif; font-weight:700; text-transform:uppercase; font-size:clamp(1.5rem,4.6vw,2.05rem); letter-spacing:.05em; line-height:1.2; color:var(--ink); margin-bottom:clamp(1.2rem,3vw,1.7rem); }
+
+  .body p{ font-size:clamp(1.08rem,2.7vw,1.235rem); line-height:1.62; color:var(--ink); font-weight:500; margin-bottom:1.05em; }
+  .body p:last-child{ margin-bottom:0; }
+  .body .dropcap::first-letter{ font-family:'Cinzel',serif; font-weight:800; float:left; color:var(--bronze); font-size:3.55em; line-height:.78; padding:.05em .15em 0 0; }
+
+  /* BIOS */
+  .name{ font-family:'Cinzel',serif; font-weight:600; text-transform:uppercase; letter-spacing:.15em; font-size:clamp(1rem,2.7vw,1.16rem); color:var(--bronze-deep); margin:clamp(1.5rem,3.6vw,2rem) 0 .6rem; }
+  .name:first-child{ margin-top:0; }
+
+  /* DIVIDER */
+  .divider{ display:flex; align-items:center; justify-content:center; gap:1rem; margin:clamp(2.4rem,6vw,3.4rem) 0; }
+  .divider .line{ height:2px; width:clamp(40px,18vw,120px); background:var(--ink-soft); opacity:.42; }
+  .divider .mark{ color:var(--bronze-deep); transform:rotate(45deg); display:inline-block; font-size:.72rem; }
+
+  /* CLOSING */
+  .closing{ text-align:center; padding:clamp(2.2rem,5.5vw,3.4rem) 0 0; }
+  .closing .ornament{ margin-bottom:clamp(1.8rem,4.5vw,2.6rem); }
+  .closing .ornament .line{ width:clamp(44px,13vw,84px); }
+  .closing .ornament .mark{ font-size:.74rem; }
+  .closing blockquote{ font-style:italic; font-size:clamp(1.28rem,3.6vw,1.68rem); line-height:1.42; color:var(--ink); max-width:30rem; margin:0 auto; }
+  .closing .signoff{ font-family:'Cinzel',serif; font-weight:600; text-transform:uppercase; letter-spacing:.28em; font-size:.78rem; color:var(--bronze-deep); margin-top:clamp(1.8rem,4.5vw,2.6rem); padding-left:.28em; }
+</style>
+</head>
+<body>
+<a href="index.html" aria-label="Back to home" style="position:fixed;top:1rem;left:1rem;z-index:200;font-family:'Cinzel',Georgia,serif;font-size:.64rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#6E4A12;text-decoration:none;background:rgba(236,217,174,.82);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);padding:.5rem .82rem;border:1px solid rgba(110,74,18,.22);border-radius:5px;">&larr;&nbsp; Home</a>
+
+  <main class="room">
+
+    <header class="masthead">
+      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+      <div class="kicker-top">Our Story</div>
+      <h1>The whole story</h1>
+      <div class="place">San Diego, California</div>
+    </header>
+
+    <article>
+
+      <!-- CHAPTER 1 -->
+      <section class="chapter">
+        <div class="kicker"><span class="dot">◆</span>The Foundation</div>
+        <h2>Since middle school</h2>
+        <div class="body">
+          <p class="dropcap">This started a long time before SHEH did. We've been best friends since middle school — not the kind who drift apart and reconnect, the kind who never left. High school, the jobs, the wins and the dead ends, and the long stretch of years where life gets heavy and you find out who's still standing next to you.</p>
+          <p>We've hiked Mt. Woodson more times than we can count, fished half of San Diego County, and spent over a year sweating on the same hard-labor event crew. Twenty-some years in, the friendship still holds — and the whole way, both of us were wired the same: always building something, always learning the next thing, trying to become our best selves.</p>
+          <p>That's the foundation all of this stands on. SHEH came out of the friendship — not the other way around.</p>
+        </div>
+      </section>
+
+      <div class="divider"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+
+      <!-- CHAPTER 2 -->
+      <section class="chapter">
+        <div class="kicker"><span class="dot">◆</span>Who We Are</div>
+        <h2>Two paths, one code</h2>
+        <div class="body">
+          <h3 class="name">Jacob</h3>
+          <p>Family man first — three kids, and nothing ranks above being a good father to them. After that, he's wired the way this whole brand is wired: learn the skill, do the work, build something that lasts. He works long, hard days — the kind of schedule that costs you something — because that's what building a life actually takes. Life has a way of teaching you how to get things done right, if you're paying attention. He's always working on something, always learning the next thing. Not every project turns into an empire, and that was never the point. The point is to keep learning, keep building things that work, and keep showing up.</p>
+          <h3 class="name">Patrick</h3>
+          <p>A serviceman now, but he earned his way there the long way. He started out working for the man like everyone else and never stopped pushing — better skills, better jobs, every step earned. That climb took him into government work in San Diego, and eventually into the U.S. Navy, where he serves today. He's got bigger goals still ahead of him. Bet on him to reach them. And ask the kids in his life who shows up for them — they'll tell you.</p>
+        </div>
+      </section>
+
+      <div class="divider"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+
+      <!-- CHAPTER 3 -->
+      <section class="chapter">
+        <div class="kicker"><span class="dot">◆</span>2023</div>
+        <h2>The thought we couldn't put down</h2>
+        <div class="body">
+          <p>We've always been early risers — full-time jobs, brutal hours, one of us up at three in the morning, the other coming off graveyard. Workouts squeezed into the late afternoons, meeting up to put in the work before heading back to the grind.</p>
+          <p>Somewhere in all those early mornings and late nights, it clicked: we'd been living by the same code for years without ever calling it one — get up, do the right hard thing, keep it honest, don't quit. That was the playbook. We'd just never written it down.</p>
+          <p>So we set out to make it real, and to put it where people could find it. It never got more complicated than that. Keep it simple. Keep it clean. Make it work.</p>
+          <p>Today the grind stays alive — we're still learning, growing, and getting better. We're here to build a community of like-minded people set on bettering themselves and their families. Through effort, focus, and resilience, you can do hard things. Become a SHEH.</p>
+        </div>
+      </section>
+
+      <div class="divider"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+
+      <!-- CHAPTER 4 -->
+      <section class="chapter">
+        <div class="kicker"><span class="dot">◆</span>How We Build</div>
+        <h2>Two friends, no shortcuts</h2>
+        <div class="body">
+          <p>There's no staff, no production crew — just two friends building their lives. Everything with our name on it gets made the same way: by hand, back and forth, some weeks at his place, some at mine, worked on between shifts and after dinner. We make it, we look at it hard, we tear it apart, and we go again.</p>
+          <p>We've gotten plenty of it wrong. Ideas that looked good and fell flat. Drafts that went straight in the trash. The thing about doing it yourself is there's nobody to hide behind — so you own the failures, write down what you learn, and run it back.</p>
+          <p>That's true of all of it. The product we build, the words we write, the content you see — the whole thing is the real deal by real people. None of it gets handed to us either, and we wouldn't want it any other way. It's the journey, not the destination. SHEH is built not given — and we're just getting started.</p>
+        </div>
+      </section>
+
+    </article>
+
+    <footer class="closing">
+      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+      <blockquote>&ldquo;Start hard today, be harder than yesterday, for today is yesterday&rsquo;s tomorrow.&rdquo;</blockquote>
+      <div class="signoff">Start Hard. End Hard.</div>
+    </footer>
+
+  </main>
+
+</body>
+</html>

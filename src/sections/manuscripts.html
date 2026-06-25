@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.H.E.H — Manuscripts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E6D1A4; --paper-hi:#ECD9AE; --paper-deep:#D6BC84;
+    --ink:#241A0E; --ink-soft:#54422C;
+    --amber:#C9772E;      /* full — large */
+    --amber-deep:#8A4A18; /* deep — small/legible */
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background:var(--paper); color:var(--ink); font-family:'EB Garamond', Georgia, serif; }
+
+  .writing{
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:clamp(3rem,9vw,6.5rem) clamp(1.5rem,6vw,3rem);
+    background:radial-gradient(135% 95% at 50% 28%, var(--paper-hi) 0%, var(--paper) 48%, var(--paper-deep) 128%);
+  }
+  .inner{ max-width:50rem; width:100%; }
+
+  .ornament{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin-bottom:clamp(1.4rem,3.5vw,2rem); }
+  .ornament .line{ height:2px; width:clamp(40px,12vw,76px); background:var(--ink-soft); opacity:.5; }
+  .ornament .mark{ font-size:.72rem; color:var(--amber-deep); transform:rotate(45deg); }
+
+  .head{ text-align:center; }
+  .head h1{
+    font-family:'Cinzel', serif; font-weight:700; text-transform:uppercase;
+    font-size:clamp(1.5rem,5vw,2.4rem); letter-spacing:.12em; padding-left:.12em; color:var(--ink);
+  }
+  .head .sub{
+    font-style:italic; color:var(--ink-soft);
+    font-size:clamp(1.04rem,2.7vw,1.24rem); margin-top:.8rem;
+  }
+
+  /* the bucket row (layout A) */
+  .buckets{
+    display:grid; grid-template-columns:1fr; gap:1.05rem;
+    margin-top:clamp(2.4rem,6vw,3.4rem);
+  }
+  @media (min-width:720px){ .buckets{ grid-template-columns:repeat(3,1fr); } }
+
+  .bucket{
+    background:rgba(255,250,238,.4);
+    border:1px solid rgba(36,26,14,.16);
+    border-top:4px solid var(--amber);
+    border-radius:4px;
+    padding:1.5rem 1.4rem 1.6rem;
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    text-decoration:none; color:inherit;
+    transition:border-color .2s ease, transform .2s ease, background .2s ease;
+    min-height:11rem; justify-content:center;
+  }
+  /* cards are static until the interior pages ship */
+  .bucket .name{
+    font-family:'Cinzel', serif; font-weight:700; letter-spacing:.1em;
+    font-size:clamp(.92rem,2.4vw,1.04rem); color:var(--ink); line-height:1.25;
+  }
+  .bucket .gild{ width:34px; height:2px; background:var(--amber-deep); opacity:.7; margin:.95rem 0; }
+  .bucket .state{ font-style:italic; color:var(--ink-soft); font-size:1.02rem; }
+
+  /* the way in */
+  .enter-rule{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin:clamp(2.6rem,6vw,3.4rem) 0 1.4rem; }
+  .enter-rule .line{ height:2px; width:clamp(48px,16vw,96px); background:var(--ink-soft); opacity:.45; }
+  .enter-rule .mark{ font-size:.7rem; color:var(--amber-deep); transform:rotate(45deg); }
+  .enter{
+    display:block; text-align:center; text-decoration:none;
+    font-style:italic; font-weight:600; font-size:clamp(1.04rem,2.7vw,1.22rem);
+    color:var(--amber-deep);
+  }
+  .enter .arrow{ font-style:normal; margin-left:.5em; transition:transform .25s ease; display:inline-block; }
+  .enter:hover .arrow{ transform:translateX(5px); }
+  .enter.soon{ color:var(--ink-soft); font-weight:500; opacity:.9; }
+
+  @media (prefers-reduced-motion: reduce){ .bucket,.enter .arrow{ transition:none; } }
+</style>
+</head>
+<body>
+
+  <section class="writing">
+    <div class="inner">
+      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+
+      <div class="head">
+        <h1>Manuscripts</h1>
+        <div class="sub">What we think, what we've learned, and where we're headed.</div>
+      </div>
+
+      <div class="buckets">
+        <div class="bucket">
+          <div class="name">PHILOSOPHY</div>
+          <div class="gild"></div>
+          <div class="state">Pen's still moving.</div>
+        </div>
+        <div class="bucket">
+          <div class="name">FIELD NOTES</div>
+          <div class="gild"></div>
+          <div class="state">Pen's still moving.</div>
+        </div>
+        <div class="bucket">
+          <div class="name">FROM THE ROAD</div>
+          <div class="gild"></div>
+          <div class="state">Pen's still moving.</div>
+        </div>
+      </div>
+
+      <div class="enter-rule"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+      <span class="enter soon">The rest is still being written.</span>
+    </div>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.H.E.H — The Long Take</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E6D1A4; --paper-hi:#ECD9AE; --paper-deep:#D6BC84;
+    --ink:#241A0E; --ink-soft:#54422C;
+    --green:#4F7A33;      /* full — large */
+    --green-deep:#355A20; /* deep — small/legible */
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background:var(--paper); color:var(--ink); font-family:'EB Garamond', Georgia, serif; }
+
+  .video{
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:clamp(3rem,9vw,6.5rem) clamp(1.5rem,6vw,3rem);
+    background:radial-gradient(135% 95% at 50% 28%, var(--paper-hi) 0%, var(--paper) 48%, var(--paper-deep) 128%);
+  }
+  .inner{ max-width:50rem; width:100%; }
+
+  .ornament{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin-bottom:clamp(1.4rem,3.5vw,2rem); }
+  .ornament .line{ height:2px; width:clamp(40px,12vw,76px); background:var(--ink-soft); opacity:.5; }
+  .ornament .mark{ font-size:.72rem; color:var(--green-deep); transform:rotate(45deg); }
+
+  .head{ text-align:center; }
+  .head h1{
+    font-family:'Cinzel', serif; font-weight:700; text-transform:uppercase;
+    font-size:clamp(1.6rem,5vw,2.4rem); letter-spacing:.14em; padding-left:.14em; color:var(--ink);
+  }
+  .head .sub{
+    font-style:italic; color:var(--ink-soft);
+    font-size:clamp(1.04rem,2.7vw,1.24rem); margin-top:.8rem;
+  }
+
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(155px,1fr)); gap:clamp(.85rem,2.5vw,1.25rem);
+    margin-top:clamp(2.4rem,6vw,3.4rem);
+  }
+
+  .frame{
+    background:var(--paper-hi);
+    border:1px solid rgba(36,26,14,.28);
+    border-radius:2px;
+    padding:clamp(.5rem,1.6vw,.7rem);
+    box-shadow:0 2px 10px rgba(36,26,14,.1);
+    text-decoration:none;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  /* frames are static until the interior pages ship */
+
+  .plate{
+    position:relative; aspect-ratio:1/1; overflow:hidden;
+    border:1px solid var(--green-deep);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+
+  /* the code-made anchor — a branded "opening reel" that actually moves */
+  .plate.film{ background:#0f1d28; }
+  .plate.film .scene{
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, #15293c 0%, #21455b 42%, #355b6f 58%, #5a6f6a 67%, #2b4150 73%, #142230 100%);
+    animation:pan 16s ease-in-out infinite alternate;
+  }
+  .plate.film .glow{
+    position:absolute; inset:0;
+    background:radial-gradient(120% 70% at 50% 72%, rgba(208,150,92,.55) 0%, rgba(208,150,92,0) 45%);
+    animation:glow 5.5s ease-in-out infinite alternate;
+  }
+  .plate.film .play{
+    position:relative; z-index:2; line-height:0;
+    animation:pulse 3.2s ease-in-out infinite;
+  }
+  .plate.film .cap{
+    position:absolute; z-index:2; left:0; right:0; bottom:0;
+    background:linear-gradient(180deg, rgba(15,29,40,0) 0%, rgba(15,29,40,.72) 100%);
+    color:#ECDCB8; font-style:italic; font-size:.82rem; text-align:left;
+    padding:1.4rem .7rem .5rem;
+  }
+  @keyframes pan { from{ transform:scale(1.05) translateY(0); } to{ transform:scale(1.13) translateY(-3%); } }
+  @keyframes glow { from{ opacity:.35; } to{ opacity:.9; } }
+  @keyframes pulse { 0%,100%{ transform:scale(1); opacity:.85; } 50%{ transform:scale(1.07); opacity:1; } }
+
+  /* the honest in-progress state */
+  .plate.developing{
+    background:linear-gradient(160deg, rgba(79,122,51,.08) 0%, rgba(53,90,32,.14) 100%);
+  }
+  .plate.developing .mk{ color:var(--green-deep); font-size:.78rem; transform:rotate(45deg); opacity:.7; margin-bottom:.7rem; }
+  .plate.developing .state{
+    font-style:italic; color:var(--green-deep); font-size:.96rem; text-align:center;
+    padding:0 .8rem; line-height:1.3;
+  }
+
+  /* the way in */
+  .enter-rule{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin:clamp(2.6rem,6vw,3.4rem) 0 1.4rem; }
+  .enter-rule .line{ height:2px; width:clamp(48px,16vw,96px); background:var(--ink-soft); opacity:.45; }
+  .enter-rule .mark{ font-size:.7rem; color:var(--green-deep); transform:rotate(45deg); }
+  .enter{
+    display:block; text-align:center; text-decoration:none;
+    font-style:italic; font-weight:600; font-size:clamp(1.04rem,2.7vw,1.22rem);
+    color:var(--green-deep);
+  }
+  .enter .arrow{ font-style:normal; margin-left:.5em; transition:transform .25s ease; display:inline-block; }
+  .enter:hover .arrow{ transform:translateX(5px); }
+  .enter.soon{ color:var(--ink-soft); font-weight:500; opacity:.9; }
+
+  @media (prefers-reduced-motion: reduce){
+    .frame,.enter .arrow{ transition:none; }
+    .plate.film .scene,.plate.film .glow,.plate.film .play{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+  <section class="video">
+    <div class="inner">
+      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+
+      <div class="head">
+        <h1>The Long Take</h1>
+        <div class="sub">SHEH on film — unscripted, uncut.</div>
+      </div>
+
+      <div class="grid">
+        <div class="frame">
+          <div class="plate film">
+            <div class="scene"></div>
+            <div class="glow"></div>
+            <span class="play">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="24" r="22.25" fill="rgba(15,29,40,.32)" stroke="#ECDCB8" stroke-width="1.5"/>
+                <path d="M20 16.5 L33 24 L20 31.5 Z" fill="#ECDCB8"/>
+              </svg>
+            </span>
+            <span class="cap">The opening reel.</span>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="plate developing">
+            <span class="mk">◆</span>
+            <span class="state">Reel's still rolling.</span>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="plate developing">
+            <span class="mk">◆</span>
+            <span class="state">Reel's still rolling.</span>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="plate developing">
+            <span class="mk">◆</span>
+            <span class="state">Reel's still rolling.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="enter-rule"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+      <span class="enter soon">The rest is still rolling.</span>
+    </div>
+  </section>
+
+</body>
+</html>

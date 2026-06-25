@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.H.E.H — News</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background:#0f0a06; color:#E6D1A4; font-family:'EB Garamond', Georgia, serif; }
+
+  /* NEWS — the dark wing, lamplit */
+  .news{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:clamp(3.8rem,10vw,6rem) clamp(1.5rem,6vw,3rem);
+    background:
+      radial-gradient(70% 44% at 50% -5%, rgba(201,119,46,.11), transparent 62%),
+      radial-gradient(130% 100% at 50% 0%, #1d160e 0%, #0f0a06 100%);
+  }
+  .inner{ max-width:43rem; width:100%; }
+
+  .ornament{ display:flex; align-items:center; justify-content:center; gap:1rem; margin-bottom:clamp(1.3rem,3.5vw,1.7rem); }
+  .ornament .line{ height:1px; width:clamp(44px,13vw,84px); background:linear-gradient(90deg, transparent, rgba(201,119,46,.5)); }
+  .ornament .line.r{ background:linear-gradient(90deg, rgba(201,119,46,.5), transparent); }
+  .ornament .mark{ font-size:.7rem; color:#C9772E; transform:rotate(45deg); }
+
+  .head{ text-align:center; }
+  .head h2{ font-family:'Cinzel',serif; font-weight:800; text-transform:uppercase; font-size:clamp(1.5rem,5.5vw,2.2rem); letter-spacing:.16em; padding-left:.16em; color:#F0DDB6; }
+  .head .sched{ font-family:'Cinzel',serif; font-weight:500; text-transform:uppercase; font-size:clamp(.58rem,1.7vw,.66rem); letter-spacing:.24em; padding-left:.24em; color:#D98C3E; margin-top:.85rem; }
+  .rule{ height:1px; background:linear-gradient(90deg, transparent, rgba(201,119,46,.5), transparent); margin:1.2rem 0 .3rem; }
+
+  .citem{ display:block; text-decoration:none; padding:1.15rem 0; border-bottom:1px solid rgba(201,119,46,.14); }
+  .citem:last-child{ border-bottom:0; padding-bottom:.2rem; }
+  .citem .dk{ display:block; font-family:'Cinzel',serif; font-weight:600; font-size:.6rem; letter-spacing:.2em; padding-left:.2em; color:#C9772E; margin-bottom:.42rem; }
+  .citem .dh{ display:block; font-family:'EB Garamond',serif; font-weight:600; font-size:clamp(1.08rem,2.8vw,1.24rem); line-height:1.32; color:#F0DDB6; transition:color .18s ease; }
+  .citem .db{ display:block; font-family:'EB Garamond',serif; font-size:clamp(.94rem,2.4vw,1.02rem); line-height:1.52; color:rgba(230,209,164,.6); margin-top:.46rem; }
+  .citem:hover .dh{ color:#FBEFD2; }
+
+  .more-wrap{ text-align:center; margin-top:1.8rem; }
+  .more{ text-decoration:none; font-family:'Cinzel',serif; font-weight:600; text-transform:uppercase; font-size:.72rem; letter-spacing:.13em; color:#C9772E; }
+  .more .arrow{ margin-left:.5em; transition:transform .25s ease; display:inline-block; }
+  .more:hover .arrow{ transform:translateX(5px); }
+
+  @media (prefers-reduced-motion: reduce){ .citem .dh,.more .arrow{ transition:none; } }
+</style>
+</head>
+<body>
+
+  <section class="news">
+    <div class="inner">
+      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line r"></span></div>
+
+      <div class="head">
+        <h2>SHEH News</h2>
+        <div class="sched">Daily Briefing &middot; 6:45 AM PT</div>
+      </div>
+      <div class="rule"></div>
+
+      <!-- The three cards below are the graceful fallback (shown if the live feed
+           can't be reached). On load, today's on-brand wires replace them. -->
+      <div class="briefs" id="newsBriefs">
+        <a class="citem" href="https://sheh-news-public.jcrack053.workers.dev" target="_blank" rel="noopener noreferrer">
+          <span class="dk">LONGEVITY</span>
+          <span class="dh">Zone 2 cardio and the longevity claims, sorted.</span>
+          <span class="db">The heart-health case is solid; the "reverses aging" framing is overblown. If you already train, you're likely fine — no need to rebuild your week around it.</span>
+        </a>
+        <a class="citem" href="https://sheh-news-public.jcrack053.workers.dev" target="_blank" rel="noopener noreferrer">
+          <span class="dk">FITNESS SCIENCE</span>
+          <span class="dh">How much protein actually moves the needle.</span>
+          <span class="db">The research keeps landing in the same range, and it's lower than the loudest voices claim. Hit a sane daily target, spread it out, stop stressing the timing.</span>
+        </a>
+        <a class="citem" href="https://sheh-news-public.jcrack053.workers.dev" target="_blank" rel="noopener noreferrer">
+          <span class="dk">NUTRITION</span>
+          <span class="dh">Creatine keeps earning its keep.</span>
+          <span class="db">Years of data, a clean safety record, and benefits that reach past the gym. One of the few where the evidence outruns the hype.</span>
+        </a>
+      </div>
+
+      <div class="more-wrap">
+        <a class="more" id="newsMore" href="https://sheh-news-public.jcrack053.workers.dev" target="_blank" rel="noopener noreferrer">Read today's full briefing<span class="arrow">&rarr;</span></a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  (function(){
+    /* ===================== EDIT BLOCK ===================== */
+    /* The public read-only fork (cached brief only — cannot pull or spend). */
+    var FEED_URL = 'https://sheh-news-public.jcrack053.workers.dev';
+    /* What counts as on-brand for the preview. Matched by CONTENT across the WHOLE
+       brief (every desk), so renaming/reordering desks never breaks it. Add or
+       remove freely to tune what the preview surfaces. */
+    var BRAND_THEMES = [
+      'health','wellness','fitness','exercise','workout','training','gym','strength','muscle',
+      'hypertrophy','cardio','endurance','athletic','mobility','vo2',
+      'longevity','lifespan','aging','anti-aging','senolytic',
+      'nutrition','diet','dietary','protein','creatine','supplement','vitamin','omega','fiber',
+      'microbiome','metabolic','metabolism','glucose','insulin','calorie','weight loss','fat loss',
+      'peptide','glp','hormone','testosterone','stem cell','gene therapy','cell therapy',
+      'regenerative','clinical trial','biotech','obesity','diabetes','cardiovascular','cholesterol',
+      'sleep','recovery','mental health','depression','anxiety','cognitive','brain health',
+      'meditation','human performance'
+    ];
+    var MIN_SCORE = 2;   // how strong the on-brand signal must be to surface a wire
+    var MAX_CARDS = 4;   // cap on preview cards
+    /* =================== END EDIT BLOCK =================== */
+
+    var box = document.getElementById('newsBriefs');
+    if(!box) return;
+
+    var RES = BRAND_THEMES.map(function(t){
+      return new RegExp('\\b' + t.replace(/[-/\\^$*+?.()|[\]{}]/g,'\\$&') + '\\b','i');
+    });
+    function tally(text, weight){ var s=0; text=String(text||''); for(var i=0;i<RES.length;i++){ if(RES[i].test(text)) s+=weight; } return s; }
+    function score(w){ return tally(w.desk,3) + tally(w.headline,2) + tally((w.points||[]).join(' '),1); }
+    function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    function render(wires){
+      var keep=[];
+      for(var i=0;i<wires.length;i++){ var sc=score(wires[i]); if(sc>=MIN_SCORE) keep.push({w:wires[i],s:sc}); }
+      if(!keep.length) return;                       // nothing on-brand today -> keep fallback
+      keep.sort(function(a,b){ return b.s-a.s; });
+      var n=Math.min(keep.length,MAX_CARDS), html='';
+      for(var k=0;k<n;k++){
+        var w=keep[k].w;
+        var blurb=(w.points&&w.points.length)?w.points[0]:'';
+        html+='<a class="citem" href="'+FEED_URL+'" target="_blank" rel="noopener noreferrer">'
+            + '<span class="dk">'+esc(String(w.desk||'SHEH NEWS').toUpperCase())+'</span>'
+            + '<span class="dh">'+esc(w.headline||'')+'</span>'
+            + (blurb?'<span class="db">'+esc(blurb)+'</span>':'')
+            + '</a>';
+      }
+      box.innerHTML=html;
+    }
+
+    fetch(FEED_URL+'/brief')
+      .then(function(r){ return r.json(); })
+      .then(function(d){ if(d && d.brief && d.brief.wires && d.brief.wires.length){ render(d.brief.wires); } })
+      .catch(function(){ /* unreachable -> the static fallback cards stay */ });
+  })();
+  </script>
+
+</body>
+</html>

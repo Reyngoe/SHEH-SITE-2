@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.H.E.H — Illuminations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E6D1A4; --paper-hi:#ECD9AE; --paper-deep:#D6BC84;
+    --ink:#241A0E; --ink-soft:#54422C;
+    --blue:#2E5468;      /* full — large */
+    --blue-deep:#264760; /* deep — small/legible */
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background:var(--paper); color:var(--ink); font-family:'EB Garamond', Georgia, serif; }
+
+  .photo{
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:clamp(3rem,9vw,6.5rem) clamp(1.5rem,6vw,3rem);
+    background:radial-gradient(135% 95% at 50% 28%, var(--paper-hi) 0%, var(--paper) 48%, var(--paper-deep) 128%);
+  }
+  .inner{ max-width:50rem; width:100%; }
+
+  .ornament{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin-bottom:clamp(1.4rem,3.5vw,2rem); }
+  .ornament .line{ height:2px; width:clamp(40px,12vw,76px); background:var(--ink-soft); opacity:.5; }
+  .ornament .mark{ font-size:.72rem; color:var(--blue-deep); transform:rotate(45deg); }
+
+  .head{ text-align:center; }
+  .head h1{
+    font-family:'Cinzel', serif; font-weight:700; text-transform:uppercase;
+    font-size:clamp(1.45rem,4.6vw,2.3rem); letter-spacing:.09em; padding-left:.09em; color:var(--ink);
+  }
+  .head .sub{
+    font-style:italic; color:var(--ink-soft);
+    font-size:clamp(1.04rem,2.7vw,1.24rem); margin-top:.8rem;
+  }
+
+  /* the frame grid — auto-flows, so adding photos later "just works" */
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(155px,1fr)); gap:clamp(.85rem,2.5vw,1.25rem);
+    margin-top:clamp(2.4rem,6vw,3.4rem);
+  }
+
+  .frame{
+    background:var(--paper-hi);
+    border:1px solid rgba(36,26,14,.28);
+    border-radius:2px;
+    padding:clamp(.5rem,1.6vw,.7rem);
+    box-shadow:0 2px 10px rgba(36,26,14,.1);
+    text-decoration:none;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  /* frames are static until the interior pages ship */
+
+  .plate{
+    position:relative; aspect-ratio:1/1; overflow:hidden;
+    border:1px solid var(--blue-deep);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+
+  /* a filled plate — STAND-IN for a real photo (a blue-hour scene, like the hero) */
+  .plate.filled{ background:#15222e; }
+  .plate.filled .shot{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
+  .plate.filled .cap{
+    position:absolute; left:0; right:0; bottom:0;
+    background:linear-gradient(180deg, rgba(20,34,46,0) 0%, rgba(20,34,46,.72) 100%);
+    color:#ECDCB8; font-style:italic; font-size:.82rem; text-align:left;
+    padding:1.4rem .7rem .5rem;
+  }
+
+  /* an empty plate — the honest in-progress state */
+  .plate.developing{
+    background:linear-gradient(160deg, rgba(46,84,104,.07) 0%, rgba(38,71,96,.12) 100%);
+  }
+  .plate.developing .mk{ color:var(--blue-deep); font-size:.78rem; transform:rotate(45deg); opacity:.7; margin-bottom:.7rem; }
+  .plate.developing .state{
+    font-style:italic; color:var(--blue-deep); font-size:.96rem; text-align:center;
+    padding:0 .8rem; line-height:1.3;
+  }
+
+  /* the way in */
+  .enter-rule{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin:clamp(2.6rem,6vw,3.4rem) 0 1.4rem; }
+  .enter-rule .line{ height:2px; width:clamp(48px,16vw,96px); background:var(--ink-soft); opacity:.45; }
+  .enter-rule .mark{ font-size:.7rem; color:var(--blue-deep); transform:rotate(45deg); }
+  .enter{
+    display:block; text-align:center; text-decoration:none;
+    font-style:italic; font-weight:600; font-size:clamp(1.04rem,2.7vw,1.22rem);
+    color:var(--blue-deep);
+  }
+  .enter .arrow{ font-style:normal; margin-left:.5em; transition:transform .25s ease; display:inline-block; }
+  .enter:hover .arrow{ transform:translateX(5px); }
+  .enter.soon{ color:var(--ink-soft); font-weight:500; opacity:.9; }
+
+  @media (prefers-reduced-motion: reduce){ .frame,.enter .arrow{ transition:none; } }
+</style>
+</head>
+<body>
+
+  <section class="photo">
+    <div class="inner">
+      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+
+      <div class="head">
+        <h1>Illuminations</h1>
+        <div class="sub">The road, the light, and the long game.</div>
+      </div>
+
+      <div class="grid">
+        <div class="frame">
+          <div class="plate filled">
+            <img class="shot" src="assets/illuminations-plate.jpg" alt="A hand-labeled S.H.E.H bottle resting on weight plates in the garage gym">
+            <span class="cap">Built not given.</span>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="plate developing">
+            <span class="mk">◆</span>
+            <span class="state">Shutter's coming into focus.</span>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="plate developing">
+            <span class="mk">◆</span>
+            <span class="state">Shutter's coming into focus.</span>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="plate developing">
+            <span class="mk">◆</span>
+            <span class="state">Shutter's coming into focus.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="enter-rule"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+      <span class="enter soon">The rest is still developing.</span>
+    </div>
+  </section>
+
+</body>
+</html>
