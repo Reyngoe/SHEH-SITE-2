@@ -26,9 +26,13 @@ scopes each one's CSS under its own `#id`, so sections never collide.
 Hero → Manuscripts → Illuminations → The Long Take → Our Story → The Creed
 → News → Social → Join → Footer
 
-## Deploy (static — no server)
-**GitHub Pages:** push to a repo → Settings → Pages → deploy from `main` / root.
-**Cloudflare Pages:** connect the repo, framework = None, build command = none,
-output dir = `/`. Then point shehthrive.org at it.
+## Deploy — LIVE
+Site 2 is deployed and live at **https://shehthrive.org**.
+- Repo: **github.com/Reyngoe/SHEH-SITE-2** (public).
+- Host: **Cloudflare** (Git-connected; framework = None, build command = blank, output = `/`).
+  Every push to `main` auto-deploys — no manual step.
+- Domain: shehthrive.org, on Cloudflare (DNS + SSL). Old Squarespace records cleared.
 
-See STATUS.md (what's live) and PENDING.md (what still needs wiring).
+Email capture is live: the "Become a SHEH" box → MailerLite **SHEH Content** group.
+
+See STATUS.md (what's live) and PENDING.md (what's next).

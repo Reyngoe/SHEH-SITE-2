@@ -2,6 +2,11 @@
 
 _Living doc. Updated the moment a decision locks — not just at packaging._
 
+> **STATUS (synced July 2026): Site 2 is DEPLOYED & LIVE at https://shehthrive.org.**
+> Auto-deploys on every push to `main`. Email capture is live on both sites (this one →
+> SHEH Content; Site 1 → SHEH Marketplace). What's left is content + the welcome email —
+> see PENDING.md.
+
 ## Done
 - Homepage assembled (`index.html`), all 10 sections in final scroll order.
 - Single inlined document; each section's CSS scoped under its `#id` (no collisions).
@@ -11,8 +16,9 @@ _Living doc. Updated the moment a decision locks — not just at packaging._
 - Footer section-nav wired to on-page anchors.
 - Socials wired everywhere to **@the1sheh** (Instagram, X, YouTube) + email.
 - Footer "merch" line → shehthrive.com.
-- Email signup **PARKED**: looks normal; on click shows "Sign-ups open soon" + a mailto
-  to the1sheh@gmail.com. No fake confirmations. (Free wiring options noted in PENDING.)
+- Email signup **WIRED & LIVE**: "Become a SHEH" box posts to MailerLite → **SHEH Content**
+  group. Design untouched; hidden-iframe submit keeps visitors on-page; custom success line;
+  honeypot for bots. Live-tested working. (Full details below.)
 - **Unbuilt windows cleanly disabled for launch** — Manuscripts / Illuminations / The Long
   Take. The placeholder cards are no longer links (no `href="#"`, hover-lift removed → static
   "in-progress" tiles), and each section's "the full ___, this way →" link is now an honest,
@@ -64,5 +70,9 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
 - "Become a SHEH" box (`src/sections/join.html`) now posts to MailerLite embedded form (account 2478250, form 191753874771543964), subscribers land in the **SHEH Content** group.
 - Design untouched. Submits via hidden iframe so the visitor stays on the page; custom success line swaps in ("You're in..."). Honeypot field (`url`) added to catch bots.
 - Field: `fields[email]` + hidden `ml-submit=1`, `anticsrf=true`.
-- Verified live: deploy succeeded (Cloudflare Pages), test signup landed in **SHEH Content**. Double opt-in is **OFF**, so the "You're in..." success line is correct as-is — no email-confirmation prompt needed.
-- Next (Site 1 / .com): mirror this with a second MailerLite embedded form → **SHEH Marketplace** group.
+- **Tested live and working** on shehthrive.org.
+- **Site 1 (.com) DONE too:** mirrored with a second MailerLite form → **SHEH Marketplace**
+  group (separate `SHEH-Website` repo). One account, two forms, two groups, deduped overlap.
+- Still open (short-term): MailerLite **welcome email** (new signups currently hear nothing
+  after joining); confirm the **double opt-in** setting matches the "You're in" wording
+  (reword to prompt confirmation if it's ON). See PENDING.md.
