@@ -54,7 +54,7 @@
     text-decoration:none;
     transition:transform .2s ease, box-shadow .2s ease;
   }
-  /* frames are static until the interior pages ship */
+  a.frame:hover{ transform:translateY(-4px); box-shadow:0 8px 22px rgba(36,26,14,.18); }
 
   .plate{
     position:relative; aspect-ratio:1/1; overflow:hidden;
@@ -109,7 +109,7 @@
         <div class="sub">The road, the light, and the long game.</div>
       </div>
 
-      <div class="grid">
+      <div class="grid" id="ilGrid">
         <div class="frame">
           <div class="plate filled">
             <img class="shot" src="assets/illuminations-plate.jpg" alt="A hand-labeled S.H.E.H bottle resting on weight plates in the garage gym">
@@ -137,9 +137,39 @@
       </div>
 
       <div class="enter-rule"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
-      <span class="enter soon">The rest is still developing.</span>
+      <span class="enter soon" id="ilEnter">The rest is still developing.</span>
     </div>
   </section>
 
+
+  <script>
+    (function(){
+      var LIB='https://sheh-library.jcrack053.workers.dev';
+      window.__shehLib = window.__shehLib || fetch(LIB+'/manifest').then(function(r){ return r.json(); });
+      window.__shehLib.then(function(m){
+        var items=((m&&m.sections&&m.sections.illuminations)||[]).filter(function(it){ return it.kind==='photo' && typeof it.src==='string' && /^\/asset\/[\w.-]+$/.test(it.src); });
+        if(!items.length) return;
+        var box=document.getElementById('ilGrid');
+        if(box){
+          box.innerHTML='';
+          items.slice(0,4).forEach(function(it){
+            var a=document.createElement('a'); a.className='frame'; a.href='illuminations.html';
+            var p=document.createElement('div'); p.className='plate filled';
+            var img=document.createElement('img'); img.className='shot'; img.loading='lazy';
+            img.src=LIB+it.src; img.alt=it.caption||'S.H.E.H photograph';
+            p.appendChild(img);
+            if(it.caption){ var c=document.createElement('span'); c.className='cap'; c.textContent=it.caption; p.appendChild(c); }
+            a.appendChild(p); box.appendChild(a);
+          });
+        }
+        var e=document.getElementById('ilEnter');
+        if(e){
+          var go=document.createElement('a'); go.className='enter'; go.href='illuminations.html';
+          go.innerHTML='The full gallery, this way <span class="arrow">\u2192</span>';
+          e.replaceWith(go);
+        }
+      }).catch(function(){});
+    })();
+  </script>
 </body>
 </html>

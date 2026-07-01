@@ -177,6 +177,7 @@
     transition:border-color .2s ease, transform .2s ease, background .2s ease;
     min-height:11rem; justify-content:center;
   }
+#manuscripts a.bucket:hover{ transform:translateY(-3px); border-top-color:var(--amber-deep); background:rgba(255,250,238,.6); }
 #manuscripts .bucket .name{
     font-family:'Cinzel', serif; font-weight:700; letter-spacing:.1em;
     font-size:clamp(.92rem,2.4vw,1.04rem); color:var(--ink); line-height:1.25;
@@ -239,6 +240,7 @@
     text-decoration:none;
     transition:transform .2s ease, box-shadow .2s ease;
   }
+#illuminations a.frame:hover{ transform:translateY(-4px); box-shadow:0 8px 22px rgba(36,26,14,.18); }
 #illuminations .plate{
     position:relative; aspect-ratio:1/1; overflow:hidden;
     border:1px solid var(--blue-deep);
@@ -316,6 +318,7 @@
     text-decoration:none;
     transition:transform .2s ease, box-shadow .2s ease;
   }
+#longtake a.frame:hover{ transform:translateY(-4px); box-shadow:0 8px 22px rgba(36,26,14,.18); }
 #longtake .plate{
     position:relative; aspect-ratio:1/1; overflow:hidden;
     border:1px solid var(--green-deep);
@@ -350,6 +353,9 @@
     font-style:italic; color:var(--green-deep); font-size:.96rem; text-align:center;
     padding:0 .8rem; line-height:1.3;
   }
+#longtake .plate.filled{ background:#0f1d28; }
+#longtake .plate.filled .shot{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+#longtake .plate.filled .cap{ position:absolute; z-index:2; left:0; right:0; bottom:0; background:linear-gradient(180deg, rgba(15,29,40,0) 0%, rgba(15,29,40,.72) 100%); color:#ECDCB8; font-style:italic; font-size:.82rem; text-align:left; padding:1.4rem .7rem .5rem; }
 #longtake .enter-rule{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin:clamp(2.6rem,6vw,3.4rem) 0 1.4rem; }
 #longtake .enter-rule .line{ height:2px; width:clamp(48px,16vw,96px); background:var(--ink-soft); opacity:.45; }
 #longtake .enter-rule .mark{ font-size:.7rem; color:var(--green-deep); transform:rotate(45deg); }
@@ -740,7 +746,7 @@
         <div class="sub">What we think, what we've learned, and where we're headed.</div>
       </div>
 
-      <div class="buckets">
+      <div class="buckets" id="msBuckets">
         <div class="bucket">
           <div class="name">PHILOSOPHY</div>
           <div class="gild"></div>
@@ -759,9 +765,38 @@
       </div>
 
       <div class="enter-rule"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
-      <span class="enter soon">The rest is still being written.</span>
+      <span class="enter soon" id="msEnter">The rest is still being written.</span>
     </div>
   </section>
+
+
+  <script>
+    (function(){
+      var LIB='https://sheh-library.jcrack053.workers.dev';
+      window.__shehLib = window.__shehLib || fetch(LIB+'/manifest').then(function(r){ return r.json(); });
+      window.__shehLib.then(function(m){
+        var items=((m&&m.sections&&m.sections.manuscripts)||[]);
+        if(!items.length) return;
+        var box=document.getElementById('msBuckets');
+        if(box){
+          box.innerHTML='';
+          items.slice(0,3).forEach(function(it){
+            var a=document.createElement('a'); a.className='bucket'; a.href='manuscripts.html';
+            var n=document.createElement('div'); n.className='name'; n.textContent=(it.title||'Untitled').toUpperCase();
+            var g=document.createElement('div'); g.className='gild';
+            var s=document.createElement('div'); s.className='state'; s.textContent=it.date||'';
+            a.appendChild(n); a.appendChild(g); a.appendChild(s); box.appendChild(a);
+          });
+        }
+        var e=document.getElementById('msEnter');
+        if(e){
+          var go=document.createElement('a'); go.className='enter'; go.href='manuscripts.html';
+          go.innerHTML='The manuscripts, this way <span class="arrow">\u2192</span>';
+          e.replaceWith(go);
+        }
+      }).catch(function(){});
+    })();
+  </script>
 </section>
 
 <section class="panel" id="illuminations">
@@ -774,7 +809,7 @@
         <div class="sub">The road, the light, and the long game.</div>
       </div>
 
-      <div class="grid">
+      <div class="grid" id="ilGrid">
         <div class="frame">
           <div class="plate filled">
             <img class="shot" src="assets/illuminations-plate.jpg" alt="A hand-labeled S.H.E.H bottle resting on weight plates in the garage gym">
@@ -802,9 +837,40 @@
       </div>
 
       <div class="enter-rule"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
-      <span class="enter soon">The rest is still developing.</span>
+      <span class="enter soon" id="ilEnter">The rest is still developing.</span>
     </div>
   </section>
+
+
+  <script>
+    (function(){
+      var LIB='https://sheh-library.jcrack053.workers.dev';
+      window.__shehLib = window.__shehLib || fetch(LIB+'/manifest').then(function(r){ return r.json(); });
+      window.__shehLib.then(function(m){
+        var items=((m&&m.sections&&m.sections.illuminations)||[]).filter(function(it){ return it.kind==='photo' && typeof it.src==='string' && /^\/asset\/[\w.-]+$/.test(it.src); });
+        if(!items.length) return;
+        var box=document.getElementById('ilGrid');
+        if(box){
+          box.innerHTML='';
+          items.slice(0,4).forEach(function(it){
+            var a=document.createElement('a'); a.className='frame'; a.href='illuminations.html';
+            var p=document.createElement('div'); p.className='plate filled';
+            var img=document.createElement('img'); img.className='shot'; img.loading='lazy';
+            img.src=LIB+it.src; img.alt=it.caption||'S.H.E.H photograph';
+            p.appendChild(img);
+            if(it.caption){ var c=document.createElement('span'); c.className='cap'; c.textContent=it.caption; p.appendChild(c); }
+            a.appendChild(p); box.appendChild(a);
+          });
+        }
+        var e=document.getElementById('ilEnter');
+        if(e){
+          var go=document.createElement('a'); go.className='enter'; go.href='illuminations.html';
+          go.innerHTML='The full gallery, this way <span class="arrow">\u2192</span>';
+          e.replaceWith(go);
+        }
+      }).catch(function(){});
+    })();
+  </script>
 </section>
 
 <section class="panel" id="longtake">
@@ -817,7 +883,7 @@
         <div class="sub">SHEH on film — unscripted, uncut.</div>
       </div>
 
-      <div class="grid">
+      <div class="grid" id="ltGrid">
         <div class="frame">
           <div class="plate film">
             <div class="scene"></div>
@@ -852,9 +918,40 @@
       </div>
 
       <div class="enter-rule"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
-      <span class="enter soon">The rest is still rolling.</span>
+      <span class="enter soon" id="ltEnter">The rest is still rolling.</span>
     </div>
   </section>
+
+
+  <script>
+    (function(){
+      var LIB='https://sheh-library.jcrack053.workers.dev';
+      window.__shehLib = window.__shehLib || fetch(LIB+'/manifest').then(function(r){ return r.json(); });
+      window.__shehLib.then(function(m){
+        var items=((m&&m.sections&&m.sections.longtake)||[]).filter(function(it){ return it.kind==='video' && typeof it.youtubeId==='string' && /^[\w-]{11}$/.test(it.youtubeId); });
+        if(!items.length) return;
+        var box=document.getElementById('ltGrid');
+        if(box){
+          box.innerHTML='';
+          items.slice(0,4).forEach(function(it){
+            var a=document.createElement('a'); a.className='frame'; a.href='the-long-take.html';
+            var p=document.createElement('div'); p.className='plate filled';
+            var img=document.createElement('img'); img.className='shot'; img.loading='lazy';
+            img.src='https://i.ytimg.com/vi/'+it.youtubeId+'/hqdefault.jpg'; img.alt=it.title||'S.H.E.H film';
+            p.appendChild(img);
+            var c=document.createElement('span'); c.className='cap'; c.textContent=it.title||'Watch'; p.appendChild(c);
+            a.appendChild(p); box.appendChild(a);
+          });
+        }
+        var e=document.getElementById('ltEnter');
+        if(e){
+          var go=document.createElement('a'); go.className='enter'; go.href='the-long-take.html';
+          go.innerHTML='The reels, this way <span class="arrow">\u2192</span>';
+          e.replaceWith(go);
+        }
+      }).catch(function(){});
+    })();
+  </script>
 </section>
 
 <section class="panel" id="story">

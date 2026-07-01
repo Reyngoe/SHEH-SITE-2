@@ -57,7 +57,7 @@
     transition:border-color .2s ease, transform .2s ease, background .2s ease;
     min-height:11rem; justify-content:center;
   }
-  /* cards are static until the interior pages ship */
+  a.bucket:hover{ transform:translateY(-3px); border-top-color:var(--amber-deep); background:rgba(255,250,238,.6); }
   .bucket .name{
     font-family:'Cinzel', serif; font-weight:700; letter-spacing:.1em;
     font-size:clamp(.92rem,2.4vw,1.04rem); color:var(--ink); line-height:1.25;
@@ -92,7 +92,7 @@
         <div class="sub">What we think, what we've learned, and where we're headed.</div>
       </div>
 
-      <div class="buckets">
+      <div class="buckets" id="msBuckets">
         <div class="bucket">
           <div class="name">PHILOSOPHY</div>
           <div class="gild"></div>
@@ -111,9 +111,37 @@
       </div>
 
       <div class="enter-rule"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
-      <span class="enter soon">The rest is still being written.</span>
+      <span class="enter soon" id="msEnter">The rest is still being written.</span>
     </div>
   </section>
 
+
+  <script>
+    (function(){
+      var LIB='https://sheh-library.jcrack053.workers.dev';
+      window.__shehLib = window.__shehLib || fetch(LIB+'/manifest').then(function(r){ return r.json(); });
+      window.__shehLib.then(function(m){
+        var items=((m&&m.sections&&m.sections.manuscripts)||[]);
+        if(!items.length) return;
+        var box=document.getElementById('msBuckets');
+        if(box){
+          box.innerHTML='';
+          items.slice(0,3).forEach(function(it){
+            var a=document.createElement('a'); a.className='bucket'; a.href='manuscripts.html';
+            var n=document.createElement('div'); n.className='name'; n.textContent=(it.title||'Untitled').toUpperCase();
+            var g=document.createElement('div'); g.className='gild';
+            var s=document.createElement('div'); s.className='state'; s.textContent=it.date||'';
+            a.appendChild(n); a.appendChild(g); a.appendChild(s); box.appendChild(a);
+          });
+        }
+        var e=document.getElementById('msEnter');
+        if(e){
+          var go=document.createElement('a'); go.className='enter'; go.href='manuscripts.html';
+          go.innerHTML='The manuscripts, this way <span class="arrow">\u2192</span>';
+          e.replaceWith(go);
+        }
+      }).catch(function(){});
+    })();
+  </script>
 </body>
 </html>

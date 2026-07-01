@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.H.E.H — Manuscripts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E6D1A4; --paper-hi:#ECD9AE; --paper-deep:#D6BC84;
+    --ink:#241A0E; --ink-soft:#54422C;
+    --amber:#C9772E; --amber-deep:#8A4A18;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    background:radial-gradient(125% 70% at 50% 0%, var(--paper-hi) 0%, var(--paper) 50%, var(--paper-deep) 130%) fixed;
+    color:var(--ink); font-family:'EB Garamond', Georgia, serif; -webkit-font-smoothing:antialiased;
+  }
+  .room{ max-width:42rem; margin:0 auto; padding:0 clamp(1.4rem,6vw,3rem) clamp(3rem,8vw,5rem); }
+
+  .ornament{ display:flex; align-items:center; justify-content:center; gap:.95rem; }
+  .ornament .line{ height:2px; width:clamp(44px,13vw,84px); background:var(--ink-soft); opacity:.5; }
+  .ornament .mark{ color:var(--amber-deep); transform:rotate(45deg); display:inline-block; font-size:.74rem; }
+
+  .masthead{ text-align:center; padding:clamp(3.5rem,12vw,6.5rem) 0 clamp(1.8rem,5vw,2.6rem); }
+  .masthead .ornament{ margin-bottom:clamp(1.8rem,4.5vw,2.5rem); }
+  .masthead h1{ font-family:'Cinzel',serif; font-weight:700; text-transform:uppercase; font-size:clamp(2rem,7vw,3rem); letter-spacing:.12em; padding-left:.12em; color:var(--amber-deep); line-height:1.12; }
+  .masthead .tagline{ font-style:italic; color:var(--ink-soft); font-size:clamp(1rem,2.6vw,1.18rem); margin-top:clamp(1rem,2.8vw,1.5rem); }
+
+  .wait{ text-align:center; font-style:italic; color:var(--ink-soft); padding:2.2rem 0; }
+
+  /* the shelf */
+  .entry{ padding:clamp(1.5rem,4vw,2.1rem) 0; }
+  .entry + .entry{ border-top:1px solid rgba(84,66,44,.2); }
+  .entry .kind{ font-family:'Cinzel',serif; font-weight:600; font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--amber-deep); }
+  .entry .title{
+    display:inline-block; font-family:'Cinzel',serif; font-weight:700; font-size:clamp(1.25rem,4vw,1.7rem);
+    letter-spacing:.04em; color:var(--ink); line-height:1.25; margin-top:.45rem;
+    text-decoration:none; border-bottom:1px solid rgba(138,74,24,.0); transition:color .18s ease, border-color .18s ease;
+  }
+  a.title{ cursor:pointer; }
+  a.title:hover{ color:var(--amber-deep); border-color:rgba(138,74,24,.4); }
+  .entry .meta{ font-style:italic; color:var(--ink-soft); font-size:.95rem; margin-top:.5rem; }
+  .entry .excerpt{ color:var(--ink); font-size:clamp(1.05rem,2.6vw,1.16rem); line-height:1.6; margin-top:.8rem; }
+  .entry .out{ font-style:italic; font-weight:600; color:var(--amber-deep); text-decoration:none; font-size:1.02rem; }
+  .entry .out:hover{ color:var(--amber); }
+
+  /* the reading view */
+  #article{ display:none; }
+  .backlink{ display:inline-block; font-style:italic; font-weight:600; color:var(--amber-deep); text-decoration:none; margin:clamp(1rem,3vw,1.6rem) 0 .4rem; cursor:pointer; }
+  .backlink:hover{ color:var(--amber); }
+  #article h2{ font-family:'Cinzel',serif; font-weight:700; font-size:clamp(1.5rem,5vw,2.2rem); letter-spacing:.05em; color:var(--ink); line-height:1.2; margin-top:.6rem; }
+  #article .meta{ font-style:italic; color:var(--ink-soft); font-size:.98rem; margin:.7rem 0 1.6rem; }
+  #article .body p{ white-space:pre-wrap; font-size:clamp(1.1rem,2.7vw,1.22rem); line-height:1.66; color:var(--ink); font-weight:500; margin-bottom:1.1em; }
+
+  /* the empty shelf */
+  #empty{ display:none; text-align:center; padding:2.4rem 0 1rem; }
+  #empty .ornament{ margin-bottom:1.6rem; }
+  #empty .line-copy{ font-style:italic; color:var(--ink-soft); font-size:clamp(1.05rem,2.7vw,1.2rem); }
+
+  .byline{ text-align:center; margin-top:clamp(2.4rem,6vw,3.4rem); }
+  .byline a{ font-family:'EB Garamond',serif; font-style:italic; font-weight:600; font-size:clamp(1.02rem,2.6vw,1.16rem); color:var(--amber-deep); text-decoration:none; border-bottom:1px solid rgba(138,74,24,.32); transition:color .18s ease, border-color .18s ease; }
+  .byline a:hover{ color:var(--amber); border-color:var(--amber); }
+  .byline .arrow{ font-style:normal; margin-right:.4em; }
+
+  @media (prefers-reduced-motion: reduce){ .entry .title, .byline a{ transition:none; } }
+</style>
+</head>
+<body>
+  <div class="room">
+    <header class="masthead">
+      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+      <h1>Manuscripts</h1>
+      <div class="tagline">What we think, what we've learned, and where we're headed.</div>
+    </header>
+
+    <div class="wait" id="wait">…</div>
+
+    <main id="shelf"></main>
+
+    <article id="article">
+      <a class="backlink" id="back"><span style="font-style:normal">←</span> All manuscripts</a>
+      <h2 id="aTitle"></h2>
+      <div class="meta" id="aMeta"></div>
+      <div class="body" id="aBody"></div>
+    </article>
+
+    <div id="empty">
+      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
+      <div class="line-copy">The first pages are still being written.</div>
+    </div>
+
+    <div class="byline"><a href="index.html"><span class="arrow">←</span> Home</a></div>
+  </div>
+
+<script>
+(function(){
+  var LIB='https://sheh-library.jcrack053.workers.dev';
+  var shelf=document.getElementById('shelf'), art=document.getElementById('article'),
+      wait=document.getElementById('wait'), empty=document.getElementById('empty');
+  function el(tag, cls, text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
+  function meta(it){ var bits=[]; if(it.date) bits.push(it.date); if(it.by) bits.push(it.by); return bits.join(' · '); }
+
+  function showEmpty(){ wait.style.display='none'; empty.style.display='block'; }
+
+  function openEssay(it){
+    document.getElementById('aTitle').textContent=it.title||'Untitled';
+    document.getElementById('aMeta').textContent=meta(it);
+    var body=document.getElementById('aBody'); body.textContent='…';
+    shelf.style.display='none'; art.style.display='block';
+    window.scrollTo({top:0, behavior:'auto'});
+    fetch(LIB+'/essay/'+encodeURIComponent(it.id)).then(function(r){return r.json();}).then(function(d){
+      body.innerHTML='';
+      String(d.body||'').split(/\n{2,}/).forEach(function(par){
+        if(par.trim()) body.appendChild(el('p', null, par));
+      });
+    }).catch(function(){ body.textContent='This page would not open. Try again in a moment.'; });
+  }
+  document.getElementById('back').addEventListener('click', function(){
+    art.style.display='none'; shelf.style.display='block'; window.scrollTo({top:0});
+  });
+
+  fetch(LIB+'/manifest').then(function(r){return r.json();}).then(function(m){
+    var items=(m&&m.sections&&m.sections.manuscripts)||[];
+    wait.style.display='none';
+    if(!items.length) return showEmpty();
+    items.forEach(function(it){
+      var box=el('div','entry');
+      var kindLabel={essay:'Manuscript', pdf:'Manuscript · PDF', link:'From elsewhere'}[it.kind]||'Manuscript';
+      box.appendChild(el('div','kind',kindLabel));
+      if(it.kind==='essay'){
+        var t=el('a','title',it.title||'Untitled'); t.addEventListener('click',function(){openEssay(it);});
+        box.appendChild(t);
+        box.appendChild(el('div','meta',meta(it)));
+        if(it.excerpt) box.appendChild(el('div','excerpt',it.excerpt+'…'));
+      } else if(it.kind==='pdf' && typeof it.src==='string' && /^\/asset\/[\w.-]+$/.test(it.src)){
+        var tp=el('span','title',it.title||'Untitled'); box.appendChild(tp);
+        box.appendChild(el('div','meta',meta(it)));
+        var a=el('a','out','Read the PDF ↗'); a.href=LIB+it.src; a.target='_blank'; a.rel='noopener';
+        var wrap=el('div'); wrap.style.marginTop='.7rem'; wrap.appendChild(a); box.appendChild(wrap);
+      } else if(it.kind==='link' && typeof it.url==='string' && /^https?:\/\//.test(it.url)){
+        var tl=el('span','title',it.title||it.url); box.appendChild(tl);
+        box.appendChild(el('div','meta',meta(it)));
+        var a2=el('a','out','Follow the thread ↗'); a2.href=it.url; a2.target='_blank'; a2.rel='noopener';
+        var wrap2=el('div'); wrap2.style.marginTop='.7rem'; wrap2.appendChild(a2); box.appendChild(wrap2);
+      } else { return; }
+      shelf.appendChild(box);
+    });
+    if(!shelf.children.length) showEmpty();
+  }).catch(showEmpty);
+})();
+</script>
+</body>
+</html>

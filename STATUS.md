@@ -87,3 +87,18 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
   `LIBRARY_KV` → secrets `PIN_REYNGOE` + `PIN_PATRICK` → redeploy → GET / shows `{"ok":true}`.
 - Phase 2 = data-driven rooms + homepage wiring (supersedes the three PENDING room items).
   Phase 3 = the `#studio` edit mode. Videos = YouTube IDs; Manuscripts = text + PDFs + links.
+
+## Content Library — Phase 2 (rooms LIVE-WIRED; push pending)
+- Worker DEPLOYED: https://sheh-library.jcrack053.workers.dev (storage: KV, verified `{"ok":true}`).
+- Three data-driven rooms at root: `manuscripts.html` (essays open in a reading view;
+  PDFs/links open out), `illuminations.html` (framed-plate gallery), `the-long-take.html`
+  (YouTube reels via youtube-nocookie). Each matches the house style (parchment, Cinzel,
+  per-room accent, ◆ ornament) and has an honest empty state in the locked voice
+  ("The first pages are still being written." / "The gallery is still developing." /
+  "The first reel is still rolling."). All content rendering is escaped + validated.
+- Homepage sections wired (one shared manifest fetch): when a section has items, its tiles
+  populate with the latest few and the status line becomes a real "…, this way →" link to
+  the room. **When the library is empty or unreachable, the homepage stays EXACTLY as
+  before** — the fallback guarantee holds.
+- Next: **Phase 3 — the #studio edit mode** (PIN-gated add/remove/caption/reorder from the
+  phone). First real test = adding a photo to Illuminations.

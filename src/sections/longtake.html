@@ -53,7 +53,7 @@
     text-decoration:none;
     transition:transform .2s ease, box-shadow .2s ease;
   }
-  /* frames are static until the interior pages ship */
+  a.frame:hover{ transform:translateY(-4px); box-shadow:0 8px 22px rgba(36,26,14,.18); }
 
   .plate{
     position:relative; aspect-ratio:1/1; overflow:hidden;
@@ -97,6 +97,10 @@
     padding:0 .8rem; line-height:1.3;
   }
 
+  .plate.filled{ background:#0f1d28; }
+  .plate.filled .shot{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+  .plate.filled .cap{ position:absolute; z-index:2; left:0; right:0; bottom:0; background:linear-gradient(180deg, rgba(15,29,40,0) 0%, rgba(15,29,40,.72) 100%); color:#ECDCB8; font-style:italic; font-size:.82rem; text-align:left; padding:1.4rem .7rem .5rem; }
+
   /* the way in */
   .enter-rule{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin:clamp(2.6rem,6vw,3.4rem) 0 1.4rem; }
   .enter-rule .line{ height:2px; width:clamp(48px,16vw,96px); background:var(--ink-soft); opacity:.45; }
@@ -127,7 +131,7 @@
         <div class="sub">SHEH on film — unscripted, uncut.</div>
       </div>
 
-      <div class="grid">
+      <div class="grid" id="ltGrid">
         <div class="frame">
           <div class="plate film">
             <div class="scene"></div>
@@ -162,9 +166,39 @@
       </div>
 
       <div class="enter-rule"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
-      <span class="enter soon">The rest is still rolling.</span>
+      <span class="enter soon" id="ltEnter">The rest is still rolling.</span>
     </div>
   </section>
 
+
+  <script>
+    (function(){
+      var LIB='https://sheh-library.jcrack053.workers.dev';
+      window.__shehLib = window.__shehLib || fetch(LIB+'/manifest').then(function(r){ return r.json(); });
+      window.__shehLib.then(function(m){
+        var items=((m&&m.sections&&m.sections.longtake)||[]).filter(function(it){ return it.kind==='video' && typeof it.youtubeId==='string' && /^[\w-]{11}$/.test(it.youtubeId); });
+        if(!items.length) return;
+        var box=document.getElementById('ltGrid');
+        if(box){
+          box.innerHTML='';
+          items.slice(0,4).forEach(function(it){
+            var a=document.createElement('a'); a.className='frame'; a.href='the-long-take.html';
+            var p=document.createElement('div'); p.className='plate filled';
+            var img=document.createElement('img'); img.className='shot'; img.loading='lazy';
+            img.src='https://i.ytimg.com/vi/'+it.youtubeId+'/hqdefault.jpg'; img.alt=it.title||'S.H.E.H film';
+            p.appendChild(img);
+            var c=document.createElement('span'); c.className='cap'; c.textContent=it.title||'Watch'; p.appendChild(c);
+            a.appendChild(p); box.appendChild(a);
+          });
+        }
+        var e=document.getElementById('ltEnter');
+        if(e){
+          var go=document.createElement('a'); go.className='enter'; go.href='the-long-take.html';
+          go.innerHTML='The reels, this way <span class="arrow">\u2192</span>';
+          e.replaceWith(go);
+        }
+      }).catch(function(){});
+    })();
+  </script>
 </body>
 </html>

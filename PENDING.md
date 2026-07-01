@@ -28,13 +28,14 @@ _Note: the three room items below are being absorbed by the **Content Library** 
       not already (bare domain works; this is belt-and-suspenders).
 - [ ] **Double opt-in wording.** If double opt-in is ON in MailerLite, reword the "You're in"
       success line to prompt the email-confirmation click. If OFF on both sites, no change.
-- [ ] **Manuscripts interior page** (philosophy / field notes / from the road). Text-only —
+- [x] **Manuscripts interior page** (philosophy / field notes / from the road). Text-only —
       the fastest room to fill. Re-link its card/status line when built.
-- [ ] **Illuminations interior gallery + real photos.** Kills the "coming soon" feel; brand's
+- [x] **Illuminations interior gallery + real photos.** Kills the "coming soon" feel; brand's
       visual proof.
 - [ ] **The Long Take interior reel.** Swap the decorative play button for a real video embed
       when there's footage.
-  Note: the three rooms above are gated on CONTENT you make — the build is fast, the writing/
+  DONE: all three rooms built data-driven (Content Library Phase 2) with honest empty
+  states; they fill themselves as the library fills. Remaining gate is CONTENT you make — the build is fast, the writing/
   shooting is the real bottleneck.
 
 ## LONGER-TERM (bigger lanes)
