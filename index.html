@@ -1038,21 +1038,33 @@
         <h2>Become a SHEH</h2>
         <div class="sub">New writing, new work, and a word when it's worth your time.</div>
       </div>
-      <div class="signup" id="joinRow">
-        <input type="email" placeholder="Your email" aria-label="Email address" id="joinField" />
-        <button type="button" id="joinBtn">Count me in</button>
-      </div>
-      <div class="signup-note" id="joinNote" hidden>Sign-ups open soon &mdash; you're early. Want in now? <a href="mailto:the1sheh@gmail.com?subject=Count%20me%20in">Email us.</a></div>
-      <div class="fineprint">No spam. No noise. Just the real stuff.</div>
+      <form class="signup" id="joinForm"
+            action="https://assets.mailerlite.com/jsonp/2478250/forms/191753874771543964/subscribe"
+            method="post" target="sheh_ml_iframe">
+        <input type="email" name="fields[email]" placeholder="Your email" aria-label="Email address" id="joinField" autocomplete="email" required />
+        <button type="submit" id="joinBtn">Count me in</button>
+        <input type="hidden" name="ml-submit" value="1">
+        <input type="hidden" name="anticsrf" value="true">
+        <input type="text" name="url" id="joinHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;" />
+      </form>
+      <div class="signup-note" id="joinSuccess" hidden>You're in. We'll write only when it's worth your time.</div>
+      <div class="fineprint" id="joinFine">No spam. No noise. Just the real stuff.</div>
     </div>
   </section>
+  <iframe name="sheh_ml_iframe" title="hidden" aria-hidden="true" tabindex="-1" style="position:absolute; width:0; height:0; border:0; left:-9999px;"></iframe>
   <script>
     (function(){
-      var btn=document.getElementById('joinBtn'), field=document.getElementById('joinField'),
-          row=document.getElementById('joinRow'), note=document.getElementById('joinNote');
-      function park(){ if(row) row.style.display='none'; if(note) note.hidden=false; }
-      if(btn) btn.addEventListener('click', park);
-      if(field) field.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); park(); } });
+      var form=document.getElementById('joinForm'),
+          hp=document.getElementById('joinHp'),
+          success=document.getElementById('joinSuccess'),
+          fine=document.getElementById('joinFine');
+      if(!form) return;
+      form.addEventListener('submit', function(e){
+        if(hp && hp.value){ e.preventDefault(); return; }   // bot trap: real people leave this empty
+        if(form) form.style.display='none';
+        if(fine) fine.hidden=true;
+        if(success) success.hidden=false;
+      });
     })();
   </script>
 </section>

@@ -59,3 +59,10 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
 - Verified: `python3 src/build.py` runs clean, `index.html` regenerated and in sync, all 9 anchors resolve, no base64 left.
 - Repo: **github.com/Reyngoe/SHEH-SITE-2** (public).
 - Deploy: GitHub repo -> **Cloudflare Pages** (Git-connected; **build command BLANK**, output `/`) -> **shehthrive.org** (already Active on Cloudflare; custom-domain step is one click). Every push to `main` auto-deploys.
+
+## Email capture — wired (MailerLite)
+- "Become a SHEH" box (`src/sections/join.html`) now posts to MailerLite embedded form (account 2478250, form 191753874771543964), subscribers land in the **SHEH Content** group.
+- Design untouched. Submits via hidden iframe so the visitor stays on the page; custom success line swaps in ("You're in..."). Honeypot field (`url`) added to catch bots.
+- Field: `fields[email]` + hidden `ml-submit=1`, `anticsrf=true`.
+- Pending: live test signup after deploy to confirm it lands in MailerLite. If double opt-in was left ON, update the success line to prompt email confirmation.
+- Next (Site 1 / .com): mirror this with a second MailerLite embedded form → **SHEH Marketplace** group.
