@@ -78,7 +78,7 @@
 
     <div class="wait" id="wait">…</div>
 
-    <main id="shelf"></main>
+    <main id="shelf" data-sheh-room="manuscripts"></main>
 
     <article id="article">
       <a class="backlink" id="back"><span style="font-style:normal">←</span> All manuscripts</a>
@@ -128,6 +128,7 @@
     if(!items.length) return showEmpty();
     items.forEach(function(it){
       var box=el('div','entry');
+      box.dataset.id=it.id; box.dataset.kind=it.kind; box.dataset.title=it.title||''; box.dataset.date=it.date||''; if(it.url) box.dataset.url=it.url;
       var kindLabel={essay:'Manuscript', pdf:'Manuscript · PDF', link:'From elsewhere'}[it.kind]||'Manuscript';
       box.appendChild(el('div','kind',kindLabel));
       if(it.kind==='essay'){
@@ -151,6 +152,16 @@
     if(!shelf.children.length) showEmpty();
   }).catch(showEmpty);
 })();
+</script>
+
+<script>
+  (function(){
+    try{
+      if(location.hash==='#studio' || localStorage.getItem('shehStudioPin')){
+        var s=document.createElement('script'); s.src='studio.js'; s.defer=true; document.head.appendChild(s);
+      }
+    }catch(e){}
+  })();
 </script>
 </body>
 </html>

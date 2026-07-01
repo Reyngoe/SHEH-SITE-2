@@ -78,5 +78,15 @@
     </div>
   </footer>
 
+
+<script>
+  (function(){
+    try{
+      if(location.hash==='#studio' || localStorage.getItem('shehStudioPin')){
+        var s=document.createElement('script'); s.src='studio.js'; s.defer=true; document.head.appendChild(s);
+      }
+    }catch(e){}
+  })();
+</script>
 </body>
 </html>

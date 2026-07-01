@@ -102,3 +102,16 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
   before** — the fallback guarantee holds.
 - Next: **Phase 3 — the #studio edit mode** (PIN-gated add/remove/caption/reorder from the
   phone). First real test = adding a photo to Illuminations.
+
+## Content Library — Phase 3 (THE STUDIO — shipped; live test pending)
+- New: `studio.js` (root). Loads only when a page is opened with `#studio` or a PIN is
+  already remembered on the device. PIN checked server-side (no-op /reorder ping);
+  remembered in localStorage; "Lock" forgets it. 401 auto-locks; 429 messaged.
+- The bar: floating ◆ STUDIO with "+ Add" (any page) and "Lock". Add sheet covers all
+  kinds — photo (auto-shrunk in-browser to ≤1600px JPEG before upload), essay (title +
+  body), PDF, outside link, YouTube video — with section/kind pickers and dates.
+- In the rooms: every item gets ↑ ↓ / ✎ Edit / ✕ Remove controls (items carry data-id
+  stamps; a MutationObserver decorates them after the async render). Reorder posts the
+  new order debounced; essay editing loads the body for in-place rewriting.
+- Loader rides into the homepage via the footer section; each room carries its own.
+- First live test: open shehthrive.org/#studio → PIN → + Add → photo to Illuminations.

@@ -79,7 +79,7 @@
     </header>
 
     <div class="wait" id="wait">…</div>
-    <main class="grid" id="gallery"></main>
+    <main class="grid" id="gallery" data-sheh-room="illuminations"></main>
 
     <div id="empty">
       <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
@@ -101,6 +101,7 @@
     items.forEach(function(it){
       if(!(it.kind==='photo' && typeof it.src==='string' && /^\/asset\/[\w.-]+$/.test(it.src))) return;
       var a=document.createElement('a'); a.className='frame'; a.href=LIB+it.src; a.target='_blank'; a.rel='noopener';
+      a.dataset.id=it.id; a.dataset.kind='photo'; a.dataset.caption=it.caption||''; a.dataset.date=it.date||'';
       var plate=document.createElement('div'); plate.className='plate';
       var img=document.createElement('img'); img.className='shot'; img.loading='lazy';
       img.src=LIB+it.src; img.alt=it.caption||'S.H.E.H photograph';
@@ -113,6 +114,16 @@
     if(!gal.children.length) showEmpty();
   }).catch(showEmpty);
 })();
+</script>
+
+<script>
+  (function(){
+    try{
+      if(location.hash==='#studio' || localStorage.getItem('shehStudioPin')){
+        var s=document.createElement('script'); s.src='studio.js'; s.defer=true; document.head.appendChild(s);
+      }
+    }catch(e){}
+  })();
 </script>
 </body>
 </html>

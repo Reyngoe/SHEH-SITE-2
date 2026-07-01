@@ -72,7 +72,7 @@
     </header>
 
     <div class="wait" id="wait">…</div>
-    <main id="reels"></main>
+    <main id="reels" data-sheh-room="longtake"></main>
 
     <div id="empty">
       <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
@@ -94,6 +94,7 @@
     items.forEach(function(it){
       if(!(it.kind==='video' && typeof it.youtubeId==='string' && /^[\w-]{11}$/.test(it.youtubeId))) return;
       var reel=document.createElement('div'); reel.className='reel';
+      reel.dataset.id=it.id; reel.dataset.kind='video'; reel.dataset.title=it.title||''; reel.dataset.youtube=it.youtubeId; reel.dataset.date=it.date||'';
       var sf=document.createElement('div'); sf.className='screenframe';
       var sc=document.createElement('div'); sc.className='screen';
       var f=document.createElement('iframe');
@@ -112,6 +113,16 @@
     if(!reels.children.length) showEmpty();
   }).catch(showEmpty);
 })();
+</script>
+
+<script>
+  (function(){
+    try{
+      if(location.hash==='#studio' || localStorage.getItem('shehStudioPin')){
+        var s=document.createElement('script'); s.src='studio.js'; s.defer=true; document.head.appendChild(s);
+      }
+    }catch(e){}
+  })();
 </script>
 </body>
 </html>
