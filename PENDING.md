@@ -20,6 +20,7 @@ _Living doc — this list is "what's left." Keep it honest against the real stat
       (Site 1 lives in the separate `SHEH-Website` repo.)
 
 ## SHORT-TERM (open — next up)
+_Note: the three room items below are being absorbed by the **Content Library** project (see STATUS — Phase 1 code done, deploy pending; Phase 2 builds the rooms data-driven)._
 - [ ] **MailerLite welcome email.** New signups currently hear nothing after joining. Set a
       welcome automation (trigger: joins group → send). Applies to both groups. Cheapest
       retention move — do this first.

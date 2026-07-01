@@ -76,3 +76,14 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
 - Still open (short-term): MailerLite **welcome email** (new signups currently hear nothing
   after joining); confirm the **double opt-in** setting matches the "You're in" wording
   (reword to prompt confirmation if it's ON). See PENDING.md.
+
+## Content Library — Phase 1 (Worker code ready; DEPLOY PENDING)
+- New: `library/sheh-library-worker.js` — the "librarian." Public reads (`/manifest`,
+  `/essay/<id>`, `/asset/<key>`), PIN-gated writes (`/add`, `/remove`, `/update`, `/reorder`),
+  two PINs (Reyngoe + Patrick, items record who added what), rate-limited attempts.
+- Storage: **KV-only to start (no card, ~1 GB ≈ thousands of resized photos).** R2 optional
+  later — add a `LIBRARY_R2` binding and it upgrades automatically; old KV files keep serving.
+- Deploy (dashboard): new KV namespace → new Worker `sheh-library` → paste file → binding
+  `LIBRARY_KV` → secrets `PIN_REYNGOE` + `PIN_PATRICK` → redeploy → GET / shows `{"ok":true}`.
+- Phase 2 = data-driven rooms + homepage wiring (supersedes the three PENDING room items).
+  Phase 3 = the `#studio` edit mode. Videos = YouTube IDs; Manuscripts = text + PDFs + links.
