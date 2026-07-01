@@ -64,5 +64,5 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
 - "Become a SHEH" box (`src/sections/join.html`) now posts to MailerLite embedded form (account 2478250, form 191753874771543964), subscribers land in the **SHEH Content** group.
 - Design untouched. Submits via hidden iframe so the visitor stays on the page; custom success line swaps in ("You're in..."). Honeypot field (`url`) added to catch bots.
 - Field: `fields[email]` + hidden `ml-submit=1`, `anticsrf=true`.
-- Pending: live test signup after deploy to confirm it lands in MailerLite. If double opt-in was left ON, update the success line to prompt email confirmation.
+- Verified live: deploy succeeded (Cloudflare Pages), test signup landed in **SHEH Content**. Double opt-in is **OFF**, so the "You're in..." success line is correct as-is — no email-confirmation prompt needed.
 - Next (Site 1 / .com): mirror this with a second MailerLite embedded form → **SHEH Marketplace** group.
