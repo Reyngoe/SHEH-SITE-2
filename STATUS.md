@@ -115,3 +115,9 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
   new order debounced; essay editing loads the body for in-place rewriting.
 - Loader rides into the homepage via the footer section; each room carries its own.
 - First live test: open shehthrive.org/#studio → PIN → + Add → photo to Illuminations.
+
+## Illuminations — baked-in photo retired
+- The static weight-plate photo was removed from the homepage fallback (and `assets/` deleted);
+  the library is now the ONLY photo source. The `.plate.filled` styles remain — Studio-added
+  photos use them. Fallback now shows the three "Shutter's coming into focus." plates.
+- The photo itself was handed back to Reyngoe to re-add via the Studio (caption: "Built not given.").
