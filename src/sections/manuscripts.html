@@ -64,6 +64,9 @@
   }
   .bucket .gild{ width:34px; height:2px; background:var(--amber-deep); opacity:.7; margin:.95rem 0; }
   .bucket .state{ font-style:italic; color:var(--ink-soft); font-size:1.02rem; }
+  /* today's piece on display */
+  .bucket .piece{ font-style:italic; color:var(--ink); font-size:1.06rem; line-height:1.45; }
+  .bucket .of{ margin-top:.55rem; font-style:italic; color:var(--ink-soft); font-size:.88rem; opacity:.9; }
 
   /* the way in */
   .enter-rule{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin:clamp(2.6rem,6vw,3.4rem) 0 1.4rem; }
@@ -125,12 +128,24 @@
       window.__shehLib = window.__shehLib || fetch(LIB+'/manifest').then(function(r){ return r.json(); });
       window.__shehLib.then(function(m){
         var items=(m&&m.sections&&m.sections.manuscripts)||[];
-        var counts={};
-        items.forEach(function(it){ var b=(it.bucket||'').toLowerCase(); counts[b]=(counts[b]||0)+1; });
-        ['philosophy','lighter-side','letters','tales'].forEach(function(slug){
-          var n=counts[slug]||0;
+        var byBucket={};
+        items.forEach(function(it){ var b=(it.bucket||'').toLowerCase(); (byBucket[b]=byBucket[b]||[]).push(it); });
+        var day=Math.floor(Date.now()/86400000); /* today's pick; rotates at midnight */
+        ['philosophy','lighter-side','letters','tales'].forEach(function(slug,i){
+          var list=byBucket[slug]||[];
           var t=document.querySelector('#msBuckets [data-slug="'+slug+'"] .state');
-          if(t&&n) t.textContent=n+(n===1?' piece':' pieces')+' shelved';
+          if(!t||!list.length) return;
+          var pick=list[(day+i)%list.length];
+          var title=(pick.title||'').trim()||'Untitled';
+          t.textContent=''; t.style.fontStyle='normal';
+          var q=document.createElement('div'); q.className='piece';
+          q.textContent='“'+title+'”';
+          t.appendChild(q);
+          if(list.length>1){
+            var c=document.createElement('div'); c.className='of';
+            c.textContent='one of '+list.length+' on this shelf';
+            t.appendChild(c);
+          }
         });
       }).catch(function(){});
     })();
