@@ -65,8 +65,79 @@
 
   @media (prefers-reduced-motion: reduce){ .byline a,.byline .arrow{ transition:none; } }
 </style>
+<style>
+  /* ===== site chrome: hamburger + overlay (matches homepage) ===== */
+  .menu-btn{ position:fixed; top:clamp(.9rem,2.5vw,1.4rem); right:clamp(.9rem,2.5vw,1.4rem); z-index:1000;
+    width:46px; height:46px; border-radius:50%; cursor:pointer;
+    background:rgba(15,10,6,.55); border:1px solid rgba(201,119,46,.5); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+    transition:border-color .2s ease, background .2s ease; }
+  .menu-btn:hover{ border-color:#C9772E; background:rgba(15,10,6,.78); }
+  .menu-btn span{ display:block; width:19px; height:1.6px; background:#E6D1A4; border-radius:2px;
+    transition:transform .28s ease, opacity .2s ease; }
+  .menu-btn.open span:nth-child(1){ transform:translateY(6.6px) rotate(45deg); }
+  .menu-btn.open span:nth-child(2){ opacity:0; }
+  .menu-btn.open span:nth-child(3){ transform:translateY(-6.6px) rotate(-45deg); }
+  .menu-overlay{ position:fixed; inset:0; z-index:999;
+    background:radial-gradient(120% 85% at 50% 0%, #1d160e 0%, #0b0704 100%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    opacity:0; visibility:hidden; transition:opacity .32s ease, visibility .32s ease; }
+  .menu-overlay.open{ opacity:1; visibility:visible; }
+  .menu-orn{ display:flex; align-items:center; gap:1rem; margin-bottom:clamp(1.8rem,5vw,2.6rem); }
+  .menu-orn .line{ height:1px; width:clamp(40px,12vw,72px); background:linear-gradient(90deg,transparent,rgba(201,119,46,.5)); }
+  .menu-orn .line.r{ background:linear-gradient(90deg,rgba(201,119,46,.5),transparent); }
+  .menu-orn .mark{ color:#C9772E; transform:rotate(45deg); font-size:.72rem; }
+  .menu-nav{ display:flex; flex-direction:column; align-items:center; gap:clamp(.65rem,2.3vw,1.1rem); }
+  .menu-nav a{ font-family:'Cinzel',serif; font-weight:600; text-transform:uppercase; letter-spacing:.18em; padding-left:.18em;
+    font-size:clamp(1.05rem,3.6vw,1.5rem); color:#E6D1A4; text-decoration:none; transition:color .18s ease; }
+  .menu-nav a:hover{ color:#F6E8C9; }
+  .menu-foot{ margin-top:clamp(2rem,5vw,2.8rem); font-family:'Cinzel',serif; font-weight:500; text-transform:uppercase;
+    letter-spacing:.28em; padding-left:.28em; font-size:.66rem; color:rgba(201,119,46,.9); }
+
+  /* ===== site chrome: footer (matches homepage, scoped) ===== */
+  .site-foot{ padding:clamp(3.4rem,9vw,5.2rem) clamp(1.5rem,6vw,3rem) clamp(2rem,5vw,3rem);
+    background:radial-gradient(85% 65% at 50% 0%, #1a130b 0%, #0d0905 100%);
+    text-align:center; color:#E6D1A4; font-family:'EB Garamond',Georgia,serif; }
+  .site-foot .inner{ max-width:40rem; margin:0 auto; }
+  .site-foot .ornament{ display:flex; align-items:center; justify-content:center; gap:1rem; margin-bottom:clamp(1.5rem,4vw,2rem); }
+  .site-foot .ornament .line{ height:1px; width:clamp(46px,14vw,90px); background:linear-gradient(90deg, transparent, rgba(201,119,46,.5)); opacity:1; }
+  .site-foot .ornament .line.r{ background:linear-gradient(90deg, rgba(201,119,46,.5), transparent); }
+  .site-foot .ornament .mark{ font-size:.7rem; color:#C9772E; transform:rotate(45deg); }
+  .site-foot .brand{ font-family:'Cinzel',serif; font-weight:700; text-transform:uppercase; font-size:clamp(1.4rem,4.5vw,1.9rem); letter-spacing:.3em; padding-left:.3em; color:#F0DDB6; }
+  .site-foot .motto{ font-family:'Cinzel',serif; font-weight:500; text-transform:uppercase; font-size:clamp(.62rem,1.8vw,.72rem); letter-spacing:.26em; padding-left:.26em; color:#C9772E; margin-top:.9rem; }
+  .site-foot .nav{ display:flex; flex-wrap:wrap; justify-content:center; gap:.55rem 1.6rem; margin-top:clamp(1.9rem,4.5vw,2.5rem); }
+  .site-foot .nav a{ text-decoration:none; font-family:'EB Garamond',serif; font-size:1.06rem; color:rgba(230,209,164,.62); transition:color .18s ease; border:0; }
+  .site-foot .nav a:hover{ color:#F0DDB6; }
+  .site-foot .bars{ margin-top:clamp(1.6rem,4vw,2.1rem); font-style:italic; font-size:clamp(.96rem,2.4vw,1.05rem); color:rgba(230,209,164,.46); }
+  .site-foot .bars a{ color:#C9772E; text-decoration:none; font-style:normal; border-bottom:1px solid rgba(201,119,46,.35); transition:color .18s ease; }
+  .site-foot .bars a:hover{ color:#DC8E3F; }
+  .site-foot .divider{ height:1px; background:linear-gradient(90deg, transparent, rgba(230,209,164,.13), transparent); margin:clamp(2rem,5vw,2.8rem) 0 clamp(1.5rem,3.6vw,1.9rem); }
+  .site-foot .social{ display:flex; justify-content:center; gap:1.05rem; margin-bottom:1.15rem; }
+  .site-foot .social a{ width:38px; height:38px; border:1px solid #4a361c; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#C9772E; transition:border-color .18s ease, color .18s ease, transform .18s ease; }
+  .site-foot .social a:hover{ border-color:#C9772E; color:#DC8E3F; transform:translateY(-2px); }
+  .site-foot .copy{ font-size:.93rem; color:rgba(230,209,164,.4); }
+  @media (prefers-reduced-motion: reduce){ .menu-btn span,.menu-overlay,.site-foot a{ transition:none; } }
+</style>
 </head>
 <body>
+
+  <div class="menu-btn" id="menuBtn" role="button" tabindex="0" aria-label="Open menu"><span></span><span></span><span></span></div>
+  <nav class="menu-overlay" id="menuOverlay" aria-label="Site">
+    <div class="menu-orn"><span class="line"></span><span class="mark">◆</span><span class="line r"></span></div>
+    <div class="menu-nav">
+      <a href="index.html">Home</a>
+      <a href="manuscripts.html">Manuscripts</a>
+      <a href="illuminations.html">Illuminations</a>
+      <a href="the-long-take.html">The Long Take</a>
+      <a href="our-story.html">Our Story</a>
+      <a href="the-creed.html">The Creed</a>
+      <a href="index.html#news">News</a>
+      <a href="index.html#social">Social</a>
+      <a href="index.html#join">Join</a>
+    </div>
+    <div class="menu-foot">Start Hard. End Hard.</div>
+  </nav>
+
 <a href="index.html" aria-label="Back to home" style="position:fixed;top:1rem;left:1rem;z-index:200;font-family:'Cinzel',Georgia,serif;font-size:.64rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#6E2A20;text-decoration:none;background:rgba(236,217,174,.82);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);padding:.5rem .82rem;border:1px solid rgba(110,74,18,.22);border-radius:5px;">&larr;&nbsp; Home</a>
 
   <main class="room">
@@ -134,10 +205,56 @@
       <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
       <blockquote>&ldquo;Start hard today, be harder than yesterday, for today is yesterday&rsquo;s tomorrow.&rdquo;</blockquote>
       <p class="gloss">Today is yesterday&rsquo;s tomorrow: the future you promised yourself yesterday is this morning, already here. There is no &ldquo;later.&rdquo; <em>Later is now.</em></p>
-      <div class="byline"><a href="our-story.html">Built by two friends who hold themselves to the same code<span class="arrow">&rarr;</span></a></div>
     </footer>
 
   </main>
 
+
+  <footer class="site-foot">
+    <div class="inner">
+      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line r"></span></div>
+      <div class="brand">S.H.E.H</div>
+      <div class="motto">Start Hard. End Hard.</div>
+      <nav class="nav">
+        <a href="our-story.html">Our Story</a>
+        <a href="manuscripts.html">Manuscripts</a>
+        <a href="illuminations.html">Illuminations</a>
+        <a href="the-long-take.html">The Long Take</a>
+        <a href="the-creed.html">The Creed</a>
+      </nav>
+      <div class="bars">Here for the merch? Find it at <a href="https://shehthrive.com">shehthrive.com</a>.</div>
+      <div class="divider"></div>
+      <div class="social">
+        <a href="https://www.instagram.com/the1sheh" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.3" cy="6.7" r="1.05" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://x.com/the1sheh" aria-label="X"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4.5 4.5 L19.5 19.5 M19.5 4.5 L4.5 19.5"/></svg></a>
+        <a href="https://www.youtube.com/@the1sheh" aria-label="YouTube"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="2.5" y="5.7" width="19" height="12.6" rx="3.6"/><path d="M10.4 9.1 L15.3 12 L10.4 14.9 Z" fill="currentColor" stroke="none"/></svg></a>
+        <a href="mailto:the1sheh@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.6 6.6 L12 13 L20.4 6.6"/></svg></a>
+      </div>
+      <div class="copy">© 2026 The S.H.E.H Company</div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      var btn=document.getElementById('menuBtn'), ov=document.getElementById('menuOverlay');
+      if(!btn||!ov) return;
+      function close(){ btn.classList.remove('open'); ov.classList.remove('open'); }
+      function toggle(){ btn.classList.contains('open') ? close() : (btn.classList.add('open'), ov.classList.add('open')); }
+      btn.addEventListener('click', toggle);
+      btn.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+      Array.prototype.forEach.call(document.querySelectorAll('.menu-nav a'), function(a){ a.addEventListener('click', close); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
+    })();
+  </script>
+
+<script>
+  (function(){
+    try{
+      if(location.hash==='#studio' || localStorage.getItem('shehStudioPin')){
+        var s=document.createElement('script'); s.src='studio.js'; s.defer=true; document.head.appendChild(s);
+      }
+    }catch(e){}
+  })();
+</script>
 </body>
 </html>

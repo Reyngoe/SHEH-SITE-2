@@ -145,6 +145,7 @@
         if(!items.length) return;
         var box=document.getElementById('ilGrid');
         if(box){
+          var ph=box.getElementsByClassName('frame'); var phHTML=ph.length?ph[ph.length-1].outerHTML:'';
           box.innerHTML='';
           items.slice(0,4).forEach(function(it){
             var a=document.createElement('a'); a.className='frame'; a.href='illuminations.html';
@@ -155,6 +156,7 @@
             if(it.caption){ var c=document.createElement('span'); c.className='cap'; c.textContent=it.caption; p.appendChild(c); }
             a.appendChild(p); box.appendChild(a);
           });
+          while(box.children.length<4 && phHTML){ box.insertAdjacentHTML('beforeend', phHTML); }
         }
         var e=document.getElementById('ilEnter');
         if(e){

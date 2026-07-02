@@ -121,3 +121,11 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
   the library is now the ONLY photo source. The `.plate.filled` styles remain — Studio-added
   photos use them. Fallback now shows the three "Shutter's coming into focus." plates.
 - The photo itself was handed back to Reyngoe to re-add via the Studio (caption: "Built not given.").
+
+## Chrome congruence + frame floors (push pending)
+- All five interior pages (3 rooms + Our Story + The Creed) now carry the homepage hamburger
+  menu and full site footer, links adapted; lone "back home" bylines removed (Our Story kept its
+  own original link — it used different markup). Studio loader added to Our Story/The Creed too.
+- Homepage sections keep a full grid as content arrives: library items fill from the front and
+  the section's own "developing" plates pad to the floor (Illum 4 / Long Take 4 / Manuscripts 3).
+- Rule locked into CLAUDE.md for all future pages.

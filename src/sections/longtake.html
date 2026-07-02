@@ -180,6 +180,7 @@
         if(!items.length) return;
         var box=document.getElementById('ltGrid');
         if(box){
+          var ph=box.getElementsByClassName('frame'); var phHTML=ph.length?ph[ph.length-1].outerHTML:'';
           box.innerHTML='';
           items.slice(0,4).forEach(function(it){
             var a=document.createElement('a'); a.className='frame'; a.href='the-long-take.html';
@@ -190,6 +191,7 @@
             var c=document.createElement('span'); c.className='cap'; c.textContent=it.title||'Watch'; p.appendChild(c);
             a.appendChild(p); box.appendChild(a);
           });
+          while(box.children.length<4 && phHTML){ box.insertAdjacentHTML('beforeend', phHTML); }
         }
         var e=document.getElementById('ltEnter');
         if(e){

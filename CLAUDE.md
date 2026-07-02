@@ -47,3 +47,11 @@ re-zip. Never hand-edit `index.html`; it's generated.
 ## Keeping docs alive
 STATUS.md and PENDING.md are living. Update them the moment a decision locks — same
 discipline Site 1 runs. Don't let them drift behind the real state.
+
+## Interior-page chrome (LOCKED convention — added July 2026)
+- EVERY interior page carries the homepage chrome: the fixed hamburger (menu-btn + menu-overlay;
+  room links point at the room pages, News/Social/Join at index.html#anchors) and the full site
+  footer (`.site-foot`, scoped styles so room ornaments are untouched). No page strands the visitor.
+- Homepage section grids never collapse below their frame floor (Illuminations 4, Long Take 4,
+  Manuscripts 3): real library items fill from the front; the section's own "developing" fallback
+  plates pad the remainder. Any new section follows the same pattern.

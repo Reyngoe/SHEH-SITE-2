@@ -125,6 +125,7 @@
         if(!items.length) return;
         var box=document.getElementById('msBuckets');
         if(box){
+          var ph=box.getElementsByClassName('bucket'); var phHTML=ph.length?ph[ph.length-1].outerHTML:'';
           box.innerHTML='';
           items.slice(0,3).forEach(function(it){
             var a=document.createElement('a'); a.className='bucket'; a.href='manuscripts.html';
@@ -133,6 +134,7 @@
             var s=document.createElement('div'); s.className='state'; s.textContent=it.date||'';
             a.appendChild(n); a.appendChild(g); a.appendChild(s); box.appendChild(a);
           });
+          while(box.children.length<3 && phHTML){ box.insertAdjacentHTML('beforeend', phHTML); }
         }
         var e=document.getElementById('msEnter');
         if(e){
