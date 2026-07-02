@@ -38,9 +38,11 @@
 const SECTIONS = {
   illuminations: ['photo'],
   manuscripts: ['essay', 'pdf', 'link'],
-  longtake: ['video'],
+  longtake: ['video', 'clip'],
 };
 const PHOTO_TYPES = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' };
+const VIDEO_TYPES = { 'video/mp4': 'mp4', 'video/quicktime': 'mov', 'video/webm': 'webm' };
+const MAX_CLIP = 20 * 1024 * 1024; // KV value ceiling is 25 MB; keep margin
 const MAX_FILE = 15 * 1024 * 1024; // 15 MB cap (Studio resizes photos well below this)
 const RL_MAX = 8;                  // bad-PIN attempts allowed...
 const RL_TTL = 900;                // ...per 15 minutes per IP
@@ -98,14 +100,32 @@ async function putFile(env, key, buf, ct) {
     return env.LIBRARY_R2.put(key, buf, { httpMetadata: { contentType: ct } });
   return env.LIBRARY_KV.put('file:' + key, buf, { metadata: { ct } });
 }
-async function getFile(env, key) {
+async function getFile(env, key, range) {
   if (env.LIBRARY_R2) {
-    const o = await env.LIBRARY_R2.get(key);
-    if (o) return { body: o.body, ct: o.httpMetadata && o.httpMetadata.contentType };
+    const head = await env.LIBRARY_R2.head(key);
+    if (head) {
+      const size = head.size;
+      const opt = range ? { range: { offset: range.start, length: range.end - range.start + 1 } } : undefined;
+      const o = await env.LIBRARY_R2.get(key, opt);
+      if (o) return { body: o.body, ct: o.httpMetadata && o.httpMetadata.contentType, size };
+    }
   }
   const r = await env.LIBRARY_KV.getWithMetadata('file:' + key, 'arrayBuffer');
   if (!r || r.value === null) return null;
-  return { body: r.value, ct: r.metadata && r.metadata.ct };
+  const size = r.value.byteLength;
+  const body = range ? r.value.slice(range.start, range.end + 1) : r.value;
+  return { body, ct: r.metadata && r.metadata.ct, size };
+}
+function parseRange(h, size) {
+  if (!h || !size) return null;
+  const m = /^bytes=(\d*)-(\d*)$/.exec(h.trim());
+  if (!m || (m[1] === '' && m[2] === '')) return null;
+  let s = m[1] === '' ? null : parseInt(m[1], 10);
+  let e = m[2] === '' ? null : parseInt(m[2], 10);
+  if (s === null) { s = Math.max(0, size - e); e = size - 1; }
+  else if (e === null || e > size - 1) e = size - 1;
+  if (s > e || s >= size) return { bad: true };
+  return { start: s, end: e };
 }
 async function delFile(env, key) {
   if (env.LIBRARY_R2) {
@@ -159,14 +179,18 @@ async function add(req, env, who) {
   const date = String(fd.get('date') || '').trim() || today();
   const item = { id, kind, date, by: who };
 
-  if (kind === 'photo' || kind === 'pdf') {
+  if (kind === 'photo' || kind === 'pdf' || kind === 'clip') {
     const f = fd.get('file');
     if (!(f && typeof f === 'object' && f.size)) return json({ error: 'file required' }, 400);
-    if (f.size > MAX_FILE) return json({ error: 'File too large (15 MB max)' }, 413);
+    const cap = kind === 'clip' ? MAX_CLIP : MAX_FILE;
+    if (f.size > cap) return json({ error: 'File too large (' + Math.round(cap / 1048576) + ' MB max)' }, 413);
     let ext;
     if (kind === 'photo') {
       ext = PHOTO_TYPES[f.type];
       if (!ext) return json({ error: 'Photo must be JPEG, PNG, or WebP' }, 415);
+    } else if (kind === 'clip') {
+      ext = VIDEO_TYPES[f.type];
+      if (!ext) return json({ error: 'Video must be MP4, MOV, or WebM' }, 415);
     } else {
       if (f.type !== 'application/pdf') return json({ error: 'PDF file required' }, 415);
       ext = 'pdf';
@@ -195,6 +219,10 @@ async function add(req, env, who) {
     item.title = title;
   }
 
+  if (section === 'manuscripts') {
+    const b = String(fd.get('bucket') || '').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 24);
+    if (b) item.bucket = b;
+  }
   const m = await loadManifest(env);
   m.sections[section].unshift(item); // newest first
   await saveManifest(env, m);
@@ -227,6 +255,10 @@ async function update(req, env) {
   const it = hit.item;
   for (const k of ['title', 'caption', 'date'])
     if (typeof b[k] === 'string') it[k] = b[k].trim();
+  if (typeof b.bucket === 'string' && hit.section === 'manuscripts') {
+    const bs = b.bucket.toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 24);
+    if (bs) it.bucket = bs;
+  }
   if (typeof b.youtube === 'string' && it.kind === 'video') {
     const y = ytId(b.youtube);
     if (y) it.youtubeId = y;
@@ -265,17 +297,36 @@ async function getEssay(env, id) {
   return json({ id, body }, 200, { 'cache-control': 'no-store' });
 }
 
-async function getAsset(env, ctx, origin, key) {
+async function getAsset(req, env, ctx, origin, key) {
   if (!/^[\w.-]+$/.test(key)) return json({ error: 'bad key' }, 400);
+  const rangeHeader = req.headers.get('range');
   const cache = caches.default;
   const ck = new Request(origin + '/asset/' + key);
-  const hit = await cache.match(ck);
-  if (hit) return hit;
-  const f = await getFile(env, key);
+  if (!rangeHeader) {
+    const hit = await cache.match(ck);
+    if (hit) return hit;
+  }
+  // probe for size first when a range is requested
+  let range = null;
+  if (rangeHeader) {
+    const probe = await getFile(env, key, null);
+    if (!probe) return json({ error: 'not found' }, 404);
+    range = parseRange(rangeHeader, probe.size);
+    if (range && range.bad) {
+      return new Response(null, { status: 416, headers: { ...CORS, 'content-range': 'bytes */' + probe.size } });
+    }
+  }
+  const f = await getFile(env, key, range);
   if (!f) return json({ error: 'not found' }, 404);
   const h = new Headers(CORS);
   h.set('content-type', f.ct || 'application/octet-stream');
+  h.set('accept-ranges', 'bytes');
   h.set('cache-control', 'public, max-age=31536000, immutable');
+  if (range) {
+    h.set('content-range', 'bytes ' + range.start + '-' + range.end + '/' + f.size);
+    h.set('content-length', String(range.end - range.start + 1));
+    return new Response(f.body, { status: 206, headers: h });
+  }
   const res = new Response(f.body, { headers: h });
   ctx.waitUntil(cache.put(ck, res.clone()));
   return res;
@@ -298,7 +349,7 @@ export default {
         if (p === '/manifest')
           return json(await loadManifest(env), 200, { 'cache-control': 'no-store' });
         if (p.startsWith('/essay/')) return getEssay(env, p.slice(7));
-        if (p.startsWith('/asset/')) return getAsset(env, ctx, url.origin, p.slice(7));
+        if (p.startsWith('/asset/')) return getAsset(req, env, ctx, url.origin, p.slice(7));
         return json({ error: 'not found' }, 404);
       }
       if (req.method === 'POST') {

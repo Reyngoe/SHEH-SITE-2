@@ -160,7 +160,7 @@
     font-size:clamp(1.04rem,2.7vw,1.24rem); margin-top:.8rem;
   }
 #manuscripts .buckets{
-    display:grid; grid-template-columns:1fr; gap:1.05rem;
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1.05rem;
     margin-top:clamp(2.4rem,6vw,3.4rem);
   }
 @media (min-width:720px){
@@ -356,6 +356,7 @@
 #longtake .plate.filled{ background:#0f1d28; }
 #longtake .plate.filled .shot{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
 #longtake .plate.filled .cap{ position:absolute; z-index:2; left:0; right:0; bottom:0; background:linear-gradient(180deg, rgba(15,29,40,0) 0%, rgba(15,29,40,.72) 100%); color:#ECDCB8; font-style:italic; font-size:.82rem; text-align:left; padding:1.4rem .7rem .5rem; }
+#longtake .plate.filled .playglyph{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:2.1rem; color:#ECDCB8; opacity:.9; }
 #longtake .enter-rule{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin:clamp(2.6rem,6vw,3.4rem) 0 1.4rem; }
 #longtake .enter-rule .line{ height:2px; width:clamp(48px,16vw,96px); background:var(--ink-soft); opacity:.45; }
 #longtake .enter-rule .mark{ font-size:.7rem; color:var(--green-deep); transform:rotate(45deg); }
@@ -747,55 +748,45 @@
       </div>
 
       <div class="buckets" id="msBuckets">
-        <div class="bucket">
+        <a class="bucket" href="manuscripts.html#philosophy" data-slug="philosophy">
           <div class="name">PHILOSOPHY</div>
           <div class="gild"></div>
-          <div class="state">Pen's still moving.</div>
-        </div>
-        <div class="bucket">
-          <div class="name">FIELD NOTES</div>
+          <div class="state">Pen&#39;s still moving.</div>
+        </a>
+        <a class="bucket" href="manuscripts.html#lighter-side" data-slug="lighter-side">
+          <div class="name">THE LIGHTER SIDE</div>
           <div class="gild"></div>
-          <div class="state">Pen's still moving.</div>
-        </div>
-        <div class="bucket">
-          <div class="name">FROM THE ROAD</div>
+          <div class="state">Pen&#39;s still moving.</div>
+        </a>
+        <a class="bucket" href="manuscripts.html#letters" data-slug="letters">
+          <div class="name">LETTERS FROM THE FOUNDERS</div>
           <div class="gild"></div>
-          <div class="state">Pen's still moving.</div>
-        </div>
+          <div class="state">Pen&#39;s still moving.</div>
+        </a>
+        <a class="bucket" href="manuscripts.html#tales" data-slug="tales">
+          <div class="name">TALES FROM THE ROAD</div>
+          <div class="gild"></div>
+          <div class="state">Pen&#39;s still moving.</div>
+        </a>
       </div>
 
       <div class="enter-rule"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
-      <span class="enter soon" id="msEnter">The rest is still being written.</span>
+      <a class="enter" href="manuscripts.html">The manuscripts, this way <span class="arrow">→</span></a>
     </div>
   </section>
-
-
   <script>
     (function(){
       var LIB='https://sheh-library.jcrack053.workers.dev';
       window.__shehLib = window.__shehLib || fetch(LIB+'/manifest').then(function(r){ return r.json(); });
       window.__shehLib.then(function(m){
-        var items=((m&&m.sections&&m.sections.manuscripts)||[]);
-        if(!items.length) return;
-        var box=document.getElementById('msBuckets');
-        if(box){
-          var ph=box.getElementsByClassName('bucket'); var phHTML=ph.length?ph[ph.length-1].outerHTML:'';
-          box.innerHTML='';
-          items.slice(0,3).forEach(function(it){
-            var a=document.createElement('a'); a.className='bucket'; a.href='manuscripts.html';
-            var n=document.createElement('div'); n.className='name'; n.textContent=(it.title||'Untitled').toUpperCase();
-            var g=document.createElement('div'); g.className='gild';
-            var s=document.createElement('div'); s.className='state'; s.textContent=it.date||'';
-            a.appendChild(n); a.appendChild(g); a.appendChild(s); box.appendChild(a);
-          });
-          while(box.children.length<3 && phHTML){ box.insertAdjacentHTML('beforeend', phHTML); }
-        }
-        var e=document.getElementById('msEnter');
-        if(e){
-          var go=document.createElement('a'); go.className='enter'; go.href='manuscripts.html';
-          go.innerHTML='The manuscripts, this way <span class="arrow">\u2192</span>';
-          e.replaceWith(go);
-        }
+        var items=(m&&m.sections&&m.sections.manuscripts)||[];
+        var counts={};
+        items.forEach(function(it){ var b=(it.bucket||'').toLowerCase(); counts[b]=(counts[b]||0)+1; });
+        ['philosophy','lighter-side','letters','tales'].forEach(function(slug){
+          var n=counts[slug]||0;
+          var t=document.querySelector('#msBuckets [data-slug="'+slug+'"] .state');
+          if(t&&n) t.textContent=n+(n===1?' piece':' pieces')+' shelved';
+        });
       }).catch(function(){});
     })();
   </script>
@@ -926,7 +917,7 @@
       var LIB='https://sheh-library.jcrack053.workers.dev';
       window.__shehLib = window.__shehLib || fetch(LIB+'/manifest').then(function(r){ return r.json(); });
       window.__shehLib.then(function(m){
-        var items=((m&&m.sections&&m.sections.longtake)||[]).filter(function(it){ return it.kind==='video' && typeof it.youtubeId==='string' && /^[\w-]{11}$/.test(it.youtubeId); });
+        var items=((m&&m.sections&&m.sections.longtake)||[]).filter(function(it){ return (it.kind==='video' && typeof it.youtubeId==='string' && /^[\w-]{11}$/.test(it.youtubeId)) || (it.kind==='clip' && typeof it.src==='string' && /^\/asset\/[\w.-]+$/.test(it.src)); });
         if(!items.length) return;
         var box=document.getElementById('ltGrid');
         if(box){
@@ -935,9 +926,14 @@
           items.slice(0,4).forEach(function(it){
             var a=document.createElement('a'); a.className='frame'; a.href='the-long-take.html';
             var p=document.createElement('div'); p.className='plate filled';
-            var img=document.createElement('img'); img.className='shot'; img.loading='lazy';
-            img.src='https://i.ytimg.com/vi/'+it.youtubeId+'/hqdefault.jpg'; img.alt=it.title||'S.H.E.H film';
-            p.appendChild(img);
+            if(it.kind==='video'){
+              var img=document.createElement('img'); img.className='shot'; img.loading='lazy';
+              img.src='https://i.ytimg.com/vi/'+it.youtubeId+'/hqdefault.jpg'; img.alt=it.title||'S.H.E.H film';
+              p.appendChild(img);
+            } else {
+              var g=document.createElement('span'); g.className='playglyph'; g.textContent='\u25B6';
+              p.appendChild(g);
+            }
             var c=document.createElement('span'); c.className='cap'; c.textContent=it.title||'Watch'; p.appendChild(c);
             a.appendChild(p); box.appendChild(a);
           });

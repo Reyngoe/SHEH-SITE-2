@@ -55,6 +55,17 @@
   #article .meta{ font-style:italic; color:var(--ink-soft); font-size:.98rem; margin:.7rem 0 1.6rem; }
   #article .body p{ white-space:pre-wrap; font-size:clamp(1.1rem,2.7vw,1.22rem); line-height:1.66; color:var(--ink); font-weight:500; margin-bottom:1.1em; }
 
+  /* the shelf doors (hall view) */
+  .shelfdoor{ display:block; padding:clamp(1.4rem,4vw,1.9rem) 0; text-decoration:none; }
+  .shelfdoor + .shelfdoor{ border-top:1px solid rgba(84,66,44,.2); }
+  .shelfdoor .kind{ font-family:'Cinzel',serif; font-weight:600; font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--amber-deep); }
+  .shelfdoor .title{ display:inline-block; font-family:'Cinzel',serif; font-weight:700; font-size:clamp(1.25rem,4vw,1.7rem); letter-spacing:.04em; color:var(--ink); line-height:1.25; margin-top:.45rem; transition:color .18s ease; }
+  .shelfdoor .go{ font-style:normal; color:var(--amber-deep); margin-left:.55rem; opacity:0; transform:translateX(-4px); transition:opacity .18s ease, transform .18s ease; display:inline-block; }
+  .shelfdoor:hover .title{ color:var(--amber-deep); }
+  .shelfdoor:hover .go{ opacity:1; transform:none; }
+  .bucket-head{ font-family:'Cinzel',serif; font-weight:700; letter-spacing:.14em; text-transform:uppercase; font-size:clamp(1rem,3vw,1.25rem); color:var(--amber-deep); margin:clamp(1.4rem,4vw,2rem) 0 .3rem; }
+  .bucket-empty{ font-style:italic; color:var(--ink-soft); padding:.9rem 0 1.3rem; }
+
   /* the empty shelf */
   #empty{ display:none; text-align:center; padding:2.4rem 0 1rem; }
   #empty .ornament{ margin-bottom:1.6rem; }
@@ -167,12 +178,19 @@
 <script>
 (function(){
   var LIB='https://sheh-library.jcrack053.workers.dev';
+  var BUCKETS=[
+    {slug:'philosophy', name:'PHILOSOPHY'},
+    {slug:'lighter-side', name:'THE LIGHTER SIDE'},
+    {slug:'letters', name:'LETTERS FROM THE FOUNDERS'},
+    {slug:'tales', name:'TALES FROM THE ROAD'}
+  ];
   var shelf=document.getElementById('shelf'), art=document.getElementById('article'),
-      wait=document.getElementById('wait'), empty=document.getElementById('empty');
+      wait=document.getElementById('wait');
+  var ITEMS=[];
   function el(tag, cls, text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
   function meta(it){ var bits=[]; if(it.date) bits.push(it.date); if(it.by) bits.push(it.by); return bits.join(' · '); }
-
-  function showEmpty(){ wait.style.display='none'; empty.style.display='block'; }
+  function slugOf(it){ var s=(it.bucket||'').toLowerCase(); for(var i=0;i<BUCKETS.length;i++) if(BUCKETS[i].slug===s) return s; return 'unfiled'; }
+  function inBucket(slug){ return ITEMS.filter(function(it){ return slugOf(it)===slug; }); }
 
   function openEssay(it){
     document.getElementById('aTitle').textContent=it.title||'Untitled';
@@ -188,38 +206,74 @@
     }).catch(function(){ body.textContent='This page would not open. Try again in a moment.'; });
   }
   document.getElementById('back').addEventListener('click', function(){
-    art.style.display='none'; shelf.style.display='block'; window.scrollTo({top:0});
+    art.style.display='none'; route(); window.scrollTo({top:0});
   });
 
-  fetch(LIB+'/manifest').then(function(r){return r.json();}).then(function(m){
-    var items=(m&&m.sections&&m.sections.manuscripts)||[];
-    wait.style.display='none';
-    if(!items.length) return showEmpty();
-    items.forEach(function(it){
-      var box=el('div','entry');
-      box.dataset.id=it.id; box.dataset.kind=it.kind; box.dataset.title=it.title||''; box.dataset.date=it.date||''; if(it.url) box.dataset.url=it.url;
-      var kindLabel={essay:'Manuscript', pdf:'Manuscript · PDF', link:'From elsewhere'}[it.kind]||'Manuscript';
-      box.appendChild(el('div','kind',kindLabel));
-      if(it.kind==='essay'){
-        var t=el('a','title',it.title||'Untitled'); t.addEventListener('click',function(){openEssay(it);});
-        box.appendChild(t);
-        box.appendChild(el('div','meta',meta(it)));
-        if(it.excerpt) box.appendChild(el('div','excerpt',it.excerpt+'…'));
-      } else if(it.kind==='pdf' && typeof it.src==='string' && /^\/asset\/[\w.-]+$/.test(it.src)){
-        var tp=el('span','title',it.title||'Untitled'); box.appendChild(tp);
-        box.appendChild(el('div','meta',meta(it)));
-        var a=el('a','out','Read the PDF ↗'); a.href=LIB+it.src; a.target='_blank'; a.rel='noopener';
-        var wrap=el('div'); wrap.style.marginTop='.7rem'; wrap.appendChild(a); box.appendChild(wrap);
-      } else if(it.kind==='link' && typeof it.url==='string' && /^https?:\/\//.test(it.url)){
-        var tl=el('span','title',it.title||it.url); box.appendChild(tl);
-        box.appendChild(el('div','meta',meta(it)));
-        var a2=el('a','out','Follow the thread ↗'); a2.href=it.url; a2.target='_blank'; a2.rel='noopener';
-        var wrap2=el('div'); wrap2.style.marginTop='.7rem'; wrap2.appendChild(a2); box.appendChild(wrap2);
-      } else { return; }
-      shelf.appendChild(box);
+  function entryNode(it){
+    var box=el('div','entry');
+    box.dataset.id=it.id; box.dataset.kind=it.kind; box.dataset.title=it.title||'';
+    box.dataset.date=it.date||''; box.dataset.bucket=slugOf(it); if(it.url) box.dataset.url=it.url;
+    var kindLabel={essay:'Manuscript', pdf:'Manuscript · PDF', link:'From elsewhere'}[it.kind]||'Manuscript';
+    box.appendChild(el('div','kind',kindLabel));
+    if(it.kind==='essay'){
+      var t=el('a','title',it.title||'Untitled'); t.addEventListener('click',function(){openEssay(it);});
+      box.appendChild(t);
+      box.appendChild(el('div','meta',meta(it)));
+      if(it.excerpt) box.appendChild(el('div','excerpt',it.excerpt+'…'));
+    } else if(it.kind==='pdf' && typeof it.src==='string' && /^\/asset\/[\w.-]+$/.test(it.src)){
+      box.appendChild(el('span','title',it.title||'Untitled'));
+      box.appendChild(el('div','meta',meta(it)));
+      var a=el('a','out','Read the PDF ↗'); a.href=LIB+it.src; a.target='_blank'; a.rel='noopener';
+      var w=el('div'); w.style.marginTop='.7rem'; w.appendChild(a); box.appendChild(w);
+    } else if(it.kind==='link' && typeof it.url==='string' && /^https?:\/\//.test(it.url)){
+      box.appendChild(el('span','title',it.title||it.url));
+      box.appendChild(el('div','meta',meta(it)));
+      var a2=el('a','out','Follow the thread ↗'); a2.href=it.url; a2.target='_blank'; a2.rel='noopener';
+      var w2=el('div'); w2.style.marginTop='.7rem'; w2.appendChild(a2); box.appendChild(w2);
+    } else { return null; }
+    return box;
+  }
+
+  function renderHall(){
+    art.style.display='none'; shelf.style.display='block'; shelf.innerHTML='';
+    BUCKETS.forEach(function(b){
+      var n=inBucket(b.slug).length;
+      var a=el('a','shelfdoor'); a.href='#'+b.slug;
+      a.appendChild(el('div','kind', n ? (n+(n===1?' piece':' pieces')+' shelved') : "Pen's still moving."));
+      var t=el('span','title',b.name); a.appendChild(t);
+      a.appendChild(el('span','go','→'));
+      shelf.appendChild(a);
     });
-    if(!shelf.children.length) showEmpty();
-  }).catch(showEmpty);
+    var un=inBucket('unfiled');
+    if(un.length){
+      shelf.appendChild(el('div','bucket-head','Unfiled'));
+      un.forEach(function(it){ var n=entryNode(it); if(n) shelf.appendChild(n); });
+    }
+    window.scrollTo({top:0});
+  }
+  function renderBucket(slug){
+    var b=null; for(var i=0;i<BUCKETS.length;i++) if(BUCKETS[i].slug===slug) b=BUCKETS[i];
+    if(!b) return renderHall();
+    art.style.display='none'; shelf.style.display='block'; shelf.innerHTML='';
+    var back=el('a','backlink'); back.href='#';
+    back.innerHTML='<span style="font-style:normal">\u2190</span> All shelves';
+    shelf.appendChild(back);
+    shelf.appendChild(el('div','bucket-head',b.name));
+    var list=inBucket(slug);
+    if(!list.length){ shelf.appendChild(el('div','bucket-empty',"Pen's still moving.")); return; }
+    list.forEach(function(it){ var n=entryNode(it); if(n) shelf.appendChild(n); });
+    window.scrollTo({top:0});
+  }
+  function route(){
+    var h=(location.hash||'').replace('#','');
+    if(h && h!=='studio') renderBucket(h); else renderHall();
+  }
+  window.addEventListener('hashchange', route);
+
+  fetch(LIB+'/manifest').then(function(r){return r.json();}).then(function(m){
+    ITEMS=(m&&m.sections&&m.sections.manuscripts)||[];
+    wait.style.display='none'; route();
+  }).catch(function(){ wait.style.display='none'; route(); });
 })();
 </script>
 

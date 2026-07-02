@@ -161,19 +161,30 @@
     var items=(m&&m.sections&&m.sections.longtake)||[];
     wait.style.display='none';
     items.forEach(function(it){
-      if(!(it.kind==='video' && typeof it.youtubeId==='string' && /^[\w-]{11}$/.test(it.youtubeId))) return;
+      var isYT = it.kind==='video' && typeof it.youtubeId==='string' && /^[\w-]{11}$/.test(it.youtubeId);
+      var isClip = it.kind==='clip' && typeof it.src==='string' && /^\/asset\/[\w.-]+$/.test(it.src);
+      if(!isYT && !isClip) return;
       var reel=document.createElement('div'); reel.className='reel';
       reel.dataset.id=it.id; reel.dataset.kind='video'; reel.dataset.title=it.title||''; reel.dataset.youtube=it.youtubeId; reel.dataset.date=it.date||'';
       var sf=document.createElement('div'); sf.className='screenframe';
       var sc=document.createElement('div'); sc.className='screen';
-      var f=document.createElement('iframe');
-      f.src='https://www.youtube-nocookie.com/embed/'+it.youtubeId+'?rel=0';
-      f.title=it.title||'S.H.E.H — The Long Take';
-      f.loading='lazy';
-      f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-      f.allowFullscreen=true;
-      f.referrerPolicy='strict-origin-when-cross-origin';
-      sc.appendChild(f); sf.appendChild(sc); reel.appendChild(sf);
+      if(isYT){
+        var f=document.createElement('iframe');
+        f.src='https://www.youtube-nocookie.com/embed/'+it.youtubeId+'?rel=0';
+        f.title=it.title||'S.H.E.H — The Long Take';
+        f.loading='lazy';
+        f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        f.allowFullscreen=true;
+        f.referrerPolicy='strict-origin-when-cross-origin';
+        sc.appendChild(f);
+      } else {
+        var v=document.createElement('video');
+        v.controls=true; v.preload='metadata'; v.playsInline=true;
+        v.style.position='absolute'; v.style.inset='0'; v.style.width='100%'; v.style.height='100%'; v.style.background='#0f1d28';
+        v.src=LIB+it.src;
+        sc.appendChild(v);
+      }
+      sf.appendChild(sc); reel.appendChild(sf);
       if(it.title){ var t=document.createElement('div'); t.className='title'; t.textContent=it.title; reel.appendChild(t); }
       var bits=[]; if(it.date) bits.push(it.date); if(it.by) bits.push(it.by);
       if(bits.length){ var mt=document.createElement('div'); mt.className='meta'; mt.textContent=bits.join(' · '); reel.appendChild(mt); }

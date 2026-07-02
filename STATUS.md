@@ -122,19 +122,6 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
   photos use them. Fallback now shows the three "Shutter's coming into focus." plates.
 - The photo itself was handed back to Reyngoe to re-add via the Studio (caption: "Built not given.").
 
-## Deploy levers + public-asset hygiene (July 2026)
-- **Manual wrangler deploy lever PROVEN WORKING:** `npx wrangler@latest deploy` from the repo
-  root (with `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` set) pushes the tree as Worker
-  static assets — `wrangler.jsonc` names the worker `sheh-site-2`, assets dir `.`. Verified
-  live at https://sheh-site-2.jcrack053.workers.dev. This is the hand-crank alongside the
-  git auto-deploy on `main`.
-- **Docs / build source / worker source HIDDEN from the live site** via `.assetsignore`:
-  `src` (build.py + section partials), `*.md` (CLAUDE/STATUS/PENDING/README), `library` and
-  `news` (worker source files), plus `wrangler.jsonc` and `.assetsignore` itself. The public
-  asset set is only the real pages: `index.html`, the five interior pages, and `studio.js`.
-- These rules live on `main` on purpose — the Cloudflare git auto-build deploys from `main`,
-  so without them there a future auto-build would re-expose the docs.
-
 ## Chrome congruence + frame floors (push pending)
 - All five interior pages (3 rooms + Our Story + The Creed) now carry the homepage hamburger
   menu and full site footer, links adapted; lone "back home" bylines removed (Our Story kept its
@@ -142,3 +129,20 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
 - Homepage sections keep a full grid as content arrives: library items fill from the front and
   the section's own "developing" plates pad to the floor (Illum 4 / Long Take 4 / Manuscripts 3).
 - Rule locked into CLAUDE.md for all future pages.
+
+## Buckets + video clips (push + WORKER REPASTE pending)
+- Manuscripts now has four shelves (locked names): PHILOSOPHY / THE LIGHTER SIDE /
+  LETTERS FROM THE FOUNDERS / TALES FROM THE ROAD. Slugs: philosophy, lighter-side,
+  letters, tales. Studio add+edit pick the shelf; homepage shows all four tiles always
+  (counts fill in); manuscripts.html is the hall — one file, bucket views via #slug
+  (e.g. manuscripts.html#philosophy). Unfiled/legacy items surface in the hall for re-filing.
+- Long Take accepts direct video uploads (kind "clip"): MP4/MOV/WebM, **20 MB cap**
+  (KV ceiling ≈ 20–40 s of 1080p phone video; 1–3 min pieces stay on YouTube). Studio
+  refuses oversized files instantly at pick time. Librarian now streams with Range
+  support (seek/scrub works); homepage shows a film-plate ▶ tile for clips.
+- **REQUIRED: repaste the librarian** — library/sheh-library-worker.js changed (clip kind,
+  bucket field, range streaming). Dashboard → sheh-library → Edit code → replace → Deploy.
+  Bindings/secrets persist. Site push is safe before or after (old worker just ignores
+  the new fields until repasted).
+- Bucket registry lives in THREE files (keep in sync): src/sections/manuscripts.html,
+  manuscripts.html, studio.js.

@@ -11,8 +11,10 @@
   var SECTIONS = {
     illuminations: { label: 'Illuminations (photo)', kinds: ['photo'] },
     manuscripts: { label: 'Manuscripts (writing)', kinds: ['essay', 'pdf', 'link'] },
-    longtake: { label: 'The Long Take (video)', kinds: ['video'] }
+    longtake: { label: 'The Long Take (video)', kinds: ['video', 'clip'] }
   };
+  var STUDIO_BUCKETS = [['philosophy','Philosophy'],['lighter-side','The Lighter Side'],['letters','Letters from the Founders'],['tales','Tales from the Road']];
+  var MAX_CLIP = 20 * 1024 * 1024;
   var roomEl = document.querySelector('[data-sheh-room]');
   var room = roomEl ? roomEl.getAttribute('data-sheh-room') : null;
 
@@ -237,6 +239,22 @@
         f.youtube = input('text', '', 'YouTube link or video ID');
         dyn.appendChild(field('Title', f.title));
         dyn.appendChild(field('The video', f.youtube));
+      } else if (kind === 'clip') {
+        f.title = input('text', '', 'Title');
+        f.file = input('file'); f.file.accept = 'video/mp4,video/quicktime,video/webm,video/*';
+        dyn.appendChild(field('Title', f.title));
+        dyn.appendChild(field('The clip \u2014 under 20 MB (\u224820\u201340 seconds of phone video)', f.file));
+        f.file.addEventListener('change', function () {
+          var v = f.file.files && f.file.files[0];
+          err.textContent = (v && v.size > MAX_CLIP)
+            ? 'That one is ' + Math.round(v.size / 1048576) + ' MB \u2014 over the 20 MB limit. Trim it in Photos, or put it on YouTube and paste the link.'
+            : '';
+        });
+      }
+      if (secSel.value === 'manuscripts') {
+        f.bucket = input('select');
+        STUDIO_BUCKETS.forEach(function (b) { var o = document.createElement('option'); o.value = b[0]; o.textContent = b[1]; f.bucket.appendChild(o); });
+        dyn.appendChild(field('Which shelf?', f.bucket));
       }
       f.date = input('date', today());
       dyn.appendChild(field('Date', f.date));
@@ -246,7 +264,7 @@
       var kinds = SECTIONS[secSel.value].kinds;
       kinds.forEach(function (k) {
         var o = document.createElement('option');
-        o.value = k; o.textContent = { photo: 'Photo', essay: 'Written piece', pdf: 'PDF', link: 'Outside link', video: 'YouTube video' }[k];
+        o.value = k; o.textContent = { photo: 'Photo', essay: 'Written piece', pdf: 'PDF', link: 'Outside link', video: 'YouTube video', clip: 'Video file (under 20 MB)' }[k];
         kindSel.appendChild(o);
       });
       kindField.style.display = kinds.length > 1 ? '' : 'none';
@@ -288,8 +306,15 @@
         if (!f.youtube.value.trim()) { err.textContent = 'Paste the YouTube link.'; return; }
         fd.append('title', f.title.value.trim());
         fd.append('youtube', f.youtube.value.trim());
+      } else if (kind === 'clip') {
+        var vf = f.file.files && f.file.files[0];
+        if (!vf) { err.textContent = 'Pick the video file.'; return; }
+        if (vf.size > MAX_CLIP) { err.textContent = 'That one is ' + Math.round(vf.size / 1048576) + ' MB \u2014 over the 20 MB limit.'; return; }
+        fd.append('title', f.title.value.trim());
+        fd.append('file', vf, vf.name || 'clip.mp4');
       }
-      save.disabled = true; save.textContent = '…';
+      if (f.bucket) fd.append('bucket', f.bucket.value);
+      save.disabled = true; save.textContent = f.file ? 'Uploading…' : '…';
       prep.then(function () { return api('/add', fd, true); })
         .then(function () { closeSheet(); toast('Added to the library.'); setTimeout(function () { location.reload(); }, 650); })
         .catch(function (e2) {
@@ -309,6 +334,11 @@
     if (d.kind === 'photo') { f.caption = input('text', d.caption || ''); s.appendChild(field('Caption', f.caption)); }
     if (d.kind === 'video') { f.youtube = input('text', d.youtube || ''); s.appendChild(field('YouTube link or ID', f.youtube)); }
     if (d.kind === 'link') { f.url = input('url', d.url || ''); s.appendChild(field('The link', f.url)); }
+    if (d.kind === 'essay' || d.kind === 'pdf' || d.kind === 'link') {
+      f.bucket = input('select');
+      STUDIO_BUCKETS.forEach(function (b) { var o = document.createElement('option'); o.value = b[0]; o.textContent = b[1]; if (d.bucket === b[0]) o.selected = true; f.bucket.appendChild(o); });
+      s.appendChild(field('Which shelf?', f.bucket));
+    }
     if (d.kind === 'essay') {
       f.body = input('textarea', '', 'Loading…');
       s.appendChild(field('The writing', f.body));
@@ -334,6 +364,7 @@
       if (f.youtube) patch.youtube = f.youtube.value.trim();
       if (f.url) patch.url = f.url.value.trim();
       if (f.body) patch.body = f.body.value;
+      if (f.bucket) patch.bucket = f.bucket.value;
       save.disabled = true; save.textContent = '…';
       api('/update', patch)
         .then(function () { closeSheet(); toast('Saved.'); setTimeout(function () { location.reload(); }, 600); })
