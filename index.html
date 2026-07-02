@@ -185,6 +185,7 @@
 #manuscripts .bucket .gild{ width:34px; height:2px; background:var(--amber-deep); opacity:.7; margin:.95rem 0; }
 #manuscripts .bucket .state{ font-style:italic; color:var(--ink-soft); font-size:1.02rem; }
 #manuscripts .bucket .piece{ font-style:italic; color:var(--ink); font-size:1.06rem; line-height:1.45; }
+#manuscripts .bucket .excerpt{ margin-top:.55rem; font-style:normal; color:var(--ink-soft); font-size:.98rem; line-height:1.5; }
 #manuscripts .bucket .of{ margin-top:.55rem; font-style:italic; color:var(--ink-soft); font-size:.88rem; opacity:.9; }
 #manuscripts .enter-rule{ display:flex; align-items:center; justify-content:center; gap:.95rem; margin:clamp(2.6rem,6vw,3.4rem) 0 1.4rem; }
 #manuscripts .enter-rule .line{ height:2px; width:clamp(48px,16vw,96px); background:var(--ink-soft); opacity:.45; }
@@ -789,7 +790,10 @@
           var list=byBucket[slug]||[];
           var t=document.querySelector('#msBuckets [data-slug="'+slug+'"] .state');
           if(!t||!list.length) return;
-          var pick=list[(day+i)%list.length];
+          /* favor written pieces — they have text to read on the tile */
+          var essays=list.filter(function(it){ return it.kind==='essay'&&it.id; });
+          var pool=essays.length?essays:list;
+          var pick=pool[(day+i)%pool.length];
           var title=(pick.title||'').trim()||'Untitled';
           t.textContent=''; t.style.fontStyle='normal';
           var q=document.createElement('div'); q.className='piece';
@@ -799,6 +803,16 @@
             var c=document.createElement('div'); c.className='of';
             c.textContent='one of '+list.length+' on this shelf';
             t.appendChild(c);
+          }
+          if(pick.kind==='essay'&&pick.id){
+            fetch(LIB+'/essay/'+pick.id).then(function(r){ return r.json(); }).then(function(e){
+              var b=((e&&e.body)||'').replace(/\s+/g,' ').trim();
+              if(!b) return;
+              var cut=b;
+              if(b.length>150){ cut=b.slice(0,150).replace(/\s+\S*$/,'')+' …'; }
+              var x=document.createElement('div'); x.className='excerpt'; x.textContent=cut;
+              t.insertBefore(x, t.querySelector('.of'));
+            }).catch(function(){});
           }
         });
       }).catch(function(){});

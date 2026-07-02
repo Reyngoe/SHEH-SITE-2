@@ -158,7 +158,9 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
   Reyngoe. Bindings/secrets persisted.
 - Bucket registry lives in THREE files (keep in sync): src/sections/manuscripts.html,
   manuscripts.html, studio.js.
-- Homepage shelf tiles are DISPLAY CASES (July 2 2026): each tile showcases the title of
-  one piece from its shelf — deterministic daily pick (day-number modulo shelf size, so it
-  rotates at midnight and everyone sees the same pick), plus "one of N on this shelf" when
-  the shelf holds more than one. Empty shelves keep "Pen's still moving."
+- Homepage shelf tiles are DISPLAY CASES (July 2 2026): each tile showcases one piece from
+  its shelf — deterministic daily pick (day-number modulo shelf size, so it rotates at
+  midnight and everyone sees the same pick), plus "one of N on this shelf" when the shelf
+  holds more than one. Written pieces are favored in the pick and show their opening
+  ~150 characters as a teaser (fetched from the librarian's /essay endpoint); PDFs/links
+  show title only. Empty shelves keep "Pen's still moving."
