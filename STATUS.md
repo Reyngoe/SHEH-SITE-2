@@ -122,6 +122,19 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
   photos use them. Fallback now shows the three "Shutter's coming into focus." plates.
 - The photo itself was handed back to Reyngoe to re-add via the Studio (caption: "Built not given.").
 
+## Deploy levers + public-asset hygiene (July 2026)
+- **Manual wrangler deploy lever PROVEN WORKING:** `npx wrangler@latest deploy` from the repo
+  root (with `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` set) pushes the tree as Worker
+  static assets — `wrangler.jsonc` names the worker `sheh-site-2`, assets dir `.`. Verified
+  live at https://sheh-site-2.jcrack053.workers.dev. This is the hand-crank alongside the
+  git auto-deploy on `main`.
+- **Docs / build source / worker source HIDDEN from the live site** via `.assetsignore`:
+  `src` (build.py + section partials), `*.md` (CLAUDE/STATUS/PENDING/README), `library` and
+  `news` (worker source files), plus `wrangler.jsonc` and `.assetsignore` itself. The public
+  asset set is only the real pages: `index.html`, the five interior pages, and `studio.js`.
+- These rules live on `main` on purpose — the Cloudflare git auto-build deploys from `main`,
+  so without them there a future auto-build would re-expose the docs.
+
 ## Chrome congruence + frame floors (push pending)
 - All five interior pages (3 rooms + Our Story + The Creed) now carry the homepage hamburger
   menu and full site footer, links adapted; lone "back home" bylines removed (Our Story kept its
