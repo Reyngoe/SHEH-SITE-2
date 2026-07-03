@@ -163,7 +163,7 @@ __SCOPED__
 </head>
 <body>
 
-  <div class="menu-btn" id="menuBtn" role="button" tabindex="0" aria-label="Open menu"><span></span><span></span><span></span></div>
+  <div class="menu-btn" id="menuBtn" role="button" tabindex="0" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></div>
   <nav class="menu-overlay" id="menuOverlay" aria-label="Site">
     <div class="menu-orn"><span class="line"></span><span class="mark">\u25C6</span><span class="line r"></span></div>
     <div class="menu-nav">
@@ -177,8 +177,8 @@ __PANELS__
   <script>
     (function(){
       var btn=document.getElementById('menuBtn'), ov=document.getElementById('menuOverlay');
-      function close(){ btn.classList.remove('open'); ov.classList.remove('open'); }
-      function toggle(){ btn.classList.contains('open') ? close() : (btn.classList.add('open'), ov.classList.add('open')); }
+      function close(){ btn.classList.remove('open'); ov.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+      function toggle(){ btn.classList.contains('open') ? close() : (btn.classList.add('open'), ov.classList.add('open'), btn.setAttribute('aria-expanded','true')); }
       btn.addEventListener('click', toggle);
       btn.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
       Array.prototype.forEach.call(document.querySelectorAll('.menu-nav a'), function(a){ a.addEventListener('click', close); });

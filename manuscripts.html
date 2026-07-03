@@ -66,17 +66,7 @@
   .bucket-head{ font-family:'Cinzel',serif; font-weight:700; letter-spacing:.14em; text-transform:uppercase; font-size:clamp(1rem,3vw,1.25rem); color:var(--amber-deep); margin:clamp(1.4rem,4vw,2rem) 0 .3rem; }
   .bucket-empty{ font-style:italic; color:var(--ink-soft); padding:.9rem 0 1.3rem; }
 
-  /* the empty shelf */
-  #empty{ display:none; text-align:center; padding:2.4rem 0 1rem; }
-  #empty .ornament{ margin-bottom:1.6rem; }
-  #empty .line-copy{ font-style:italic; color:var(--ink-soft); font-size:clamp(1.05rem,2.7vw,1.2rem); }
-
-  .byline{ text-align:center; margin-top:clamp(2.4rem,6vw,3.4rem); }
-  .byline a{ font-family:'EB Garamond',serif; font-style:italic; font-weight:600; font-size:clamp(1.02rem,2.6vw,1.16rem); color:var(--amber-deep); text-decoration:none; border-bottom:1px solid rgba(138,74,24,.32); transition:color .18s ease, border-color .18s ease; }
-  .byline a:hover{ color:var(--amber); border-color:var(--amber); }
-  .byline .arrow{ font-style:normal; margin-right:.4em; }
-
-  @media (prefers-reduced-motion: reduce){ .entry .title, .byline a{ transition:none; } }
+  @media (prefers-reduced-motion: reduce){ .entry .title{ transition:none; } }
 </style>
 <style>
   /* ===== site chrome: hamburger + overlay (matches homepage) ===== */
@@ -134,7 +124,7 @@
 </head>
 <body>
 
-  <div class="menu-btn" id="menuBtn" role="button" tabindex="0" aria-label="Open menu"><span></span><span></span><span></span></div>
+  <div class="menu-btn" id="menuBtn" role="button" tabindex="0" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></div>
   <nav class="menu-overlay" id="menuOverlay" aria-label="Site">
     <div class="menu-orn"><span class="line"></span><span class="mark">◆</span><span class="line r"></span></div>
     <div class="menu-nav">
@@ -169,10 +159,6 @@
       <div class="body" id="aBody"></div>
     </article>
 
-    <div id="empty">
-      <div class="ornament"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
-      <div class="line-copy">The first pages are still being written.</div>
-    </div>
   </div>
 
 <script>
@@ -315,8 +301,8 @@
     (function(){
       var btn=document.getElementById('menuBtn'), ov=document.getElementById('menuOverlay');
       if(!btn||!ov) return;
-      function close(){ btn.classList.remove('open'); ov.classList.remove('open'); }
-      function toggle(){ btn.classList.contains('open') ? close() : (btn.classList.add('open'), ov.classList.add('open')); }
+      function close(){ btn.classList.remove('open'); ov.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+      function toggle(){ btn.classList.contains('open') ? close() : (btn.classList.add('open'), ov.classList.add('open'), btn.setAttribute('aria-expanded','true')); }
       btn.addEventListener('click', toggle);
       btn.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
       Array.prototype.forEach.call(document.querySelectorAll('.menu-nav a'), function(a){ a.addEventListener('click', close); });

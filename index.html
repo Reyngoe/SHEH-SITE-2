@@ -614,7 +614,7 @@
 </head>
 <body>
 
-  <div class="menu-btn" id="menuBtn" role="button" tabindex="0" aria-label="Open menu"><span></span><span></span><span></span></div>
+  <div class="menu-btn" id="menuBtn" role="button" tabindex="0" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></div>
   <nav class="menu-overlay" id="menuOverlay" aria-label="Site">
     <div class="menu-orn"><span class="line"></span><span class="mark">◆</span><span class="line r"></span></div>
     <div class="menu-nav">
@@ -849,6 +849,12 @@
             <span class="state">Shutter's coming into focus.</span>
           </div>
         </div>
+        <div class="frame">
+          <div class="plate developing">
+            <span class="mk">◆</span>
+            <span class="state">Shutter's coming into focus.</span>
+          </div>
+        </div>
       </div>
 
       <div class="enter-rule"><span class="line"></span><span class="mark">◆</span><span class="line"></span></div>
@@ -905,7 +911,7 @@
           <div class="plate film">
             <div class="scene"></div>
             <div class="glow"></div>
-            <span class="play">
+            <span class="play" aria-hidden="true">
               <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="24" cy="24" r="22.25" fill="rgba(15,29,40,.32)" stroke="#ECDCB8" stroke-width="1.5"/>
                 <path d="M20 16.5 L33 24 L20 31.5 Z" fill="#ECDCB8"/>
@@ -1236,8 +1242,8 @@
   <script>
     (function(){
       var btn=document.getElementById('menuBtn'), ov=document.getElementById('menuOverlay');
-      function close(){ btn.classList.remove('open'); ov.classList.remove('open'); }
-      function toggle(){ btn.classList.contains('open') ? close() : (btn.classList.add('open'), ov.classList.add('open')); }
+      function close(){ btn.classList.remove('open'); ov.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+      function toggle(){ btn.classList.contains('open') ? close() : (btn.classList.add('open'), ov.classList.add('open'), btn.setAttribute('aria-expanded','true')); }
       btn.addEventListener('click', toggle);
       btn.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
       Array.prototype.forEach.call(document.querySelectorAll('.menu-nav a'), function(a){ a.addEventListener('click', close); });
