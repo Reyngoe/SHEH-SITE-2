@@ -88,7 +88,7 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
 - Phase 2 = data-driven rooms + homepage wiring (supersedes the three PENDING room items).
   Phase 3 = the `#studio` edit mode. Videos = YouTube IDs; Manuscripts = text + PDFs + links.
 
-## Content Library — Phase 2 (rooms LIVE-WIRED; push pending)
+## Content Library — Phase 2 (rooms LIVE-WIRED)
 - Worker DEPLOYED: https://sheh-library.jcrack053.workers.dev (storage: KV, verified `{"ok":true}`).
 - Three data-driven rooms at root: `manuscripts.html` (essays open in a reading view;
   PDFs/links open out), `illuminations.html` (framed-plate gallery), `the-long-take.html`
@@ -135,7 +135,7 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
 - These rules live on `main` on purpose — the Cloudflare git auto-build deploys from `main`,
   so without them there a future auto-build would re-expose the docs.
 
-## Chrome congruence + frame floors (push pending)
+## Chrome congruence + frame floors (pushed)
 - All five interior pages (3 rooms + Our Story + The Creed) now carry the homepage hamburger
   menu and full site footer, links adapted; lone "back home" bylines removed (Our Story kept its
   own original link — it used different markup). Studio loader added to Our Story/The Creed too.
@@ -164,3 +164,29 @@ docs) → run `python3 src/build.py` → `index.html` regenerates → re-zip. Ne
   holds more than one. Written pieces are favored in the pick and show their opening
   ~150 characters as a teaser (fetched from the librarian's /essay endpoint); PDFs/links
   show title only. Empty shelves keep "Pen's still moving."
+
+## Site audit + conformance pass (July 3 2026)
+Full-site sweep against the locked conventions (chrome parity, accents, links, registries,
+build integrity, fallbacks, a11y, docs). Everything green after these fixes:
+- **The Long Take room:** Studio edit-stamp bug fixed — clip reels were stamped
+  `data-kind="video"` with a bogus `data-youtube="undefined"`, so editing a clip in the
+  Studio showed a phantom YouTube field. Clips now stamp `data-kind="clip"` (title/date
+  edit works; no YouTube field).
+- **The Creed room:** the "← Home" pill's border was Our Story's bronze; now oxblood.
+- **Illuminations homepage fallback** raised from 3 to 4 developing plates to honor the
+  locked frame floor (the JS already padded to 4 once any photo existed).
+- **A11y:** hamburger button now carries `aria-expanded` (toggled by the shared menu
+  script, homepage + all five interior pages); decorative play-button SVG marked
+  `aria-hidden`.
+- **Dead code removed:** manuscripts room's never-shown `#empty` block; unused `.byline`
+  CSS left behind in all four interior pages when the chrome pass replaced bylines.
+- **Verified clean:** committed `index.html` byte-identical to a fresh `src/build.py` run;
+  bucket slugs identical across src/sections/manuscripts.html, manuscripts.html, studio.js;
+  librarian URL identical everywhere; all internal links/anchors resolve from every page;
+  all library-fed rendering escaped or regex-validated (no XSS paths); every page keeps a
+  sane fallback with the library unreachable; the librarian's /reorder preserves unlisted
+  items, so the Studio's empty-ids PIN ping is a true no-op.
+- **Proposals (not applied — Reyngoe's call):** homepage overlay/footer send Our Story /
+  The Creed to the door panels rather than the room pages (PENDING has this as optional);
+  the manuscripts bucket grid forces 3 columns at ≥720px, leaving the 4th shelf tile alone
+  on its own row — could go 2×2 or 4-across.

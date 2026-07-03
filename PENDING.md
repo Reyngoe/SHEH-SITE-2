@@ -20,7 +20,7 @@ _Living doc — this list is "what's left." Keep it honest against the real stat
       (Site 1 lives in the separate `SHEH-Website` repo.)
 
 ## SHORT-TERM (open — next up)
-_Note: the three room items below are being absorbed by the **Content Library** project (see STATUS — Phase 1 code done, deploy pending; Phase 2 builds the rooms data-driven)._
+_Note: the three room items below were absorbed by the **Content Library** project (see STATUS — Phases 1–3 shipped; all three rooms are data-driven and fill as the library fills)._
 - [ ] **MailerLite welcome email.** New signups currently hear nothing after joining. Set a
       welcome automation (trigger: joins group → send). Applies to both groups. Cheapest
       retention move — do this first.
@@ -32,7 +32,7 @@ _Note: the three room items below are being absorbed by the **Content Library** 
       the fastest room to fill. Re-link its card/status line when built.
 - [x] **Illuminations interior gallery + real photos.** Kills the "coming soon" feel; brand's
       visual proof.
-- [ ] **The Long Take interior reel.** Swap the decorative play button for a real video embed
+- [x] **The Long Take interior reel.** Swap the decorative play button for a real video embed
       when there's footage.
   DONE: all three rooms built data-driven (Content Library Phase 2) with honest empty
   states; they fill themselves as the library fills. Remaining gate is CONTENT you make — the build is fast, the writing/

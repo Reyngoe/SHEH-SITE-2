@@ -52,6 +52,7 @@ discipline Site 1 runs. Don't let them drift behind the real state.
 - EVERY interior page carries the homepage chrome: the fixed hamburger (menu-btn + menu-overlay;
   room links point at the room pages, News/Social/Join at index.html#anchors) and the full site
   footer (`.site-foot`, scoped styles so room ornaments are untouched). No page strands the visitor.
-- Homepage section grids never collapse below their frame floor (Illuminations 4, Long Take 4,
-  Manuscripts 3): real library items fill from the front; the section's own "developing" fallback
-  plates pad the remainder. Any new section follows the same pattern.
+- Homepage section grids never collapse below their frame floor (Illuminations 4, Long Take 4;
+  Manuscripts always shows its four shelf tiles): real library items fill from the front; the
+  section's own "developing" fallback plates pad the remainder. Any new section follows the same
+  pattern.

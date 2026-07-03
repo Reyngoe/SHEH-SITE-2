@@ -7,12 +7,19 @@ the photography, the film, and the creed behind the name.
 ## Structure
 ```
 index.html          the homepage (generated — do not hand-edit)
+manuscripts.html    Manuscripts (data-driven room; shelf views via #slug)
+illuminations.html  Illuminations (data-driven gallery room)
+the-long-take.html  The Long Take (data-driven film room)
 our-story.html      Our Story (full room)
 the-creed.html      The Creed (full room)
+studio.js           the founders' PIN-gated edit mode (#studio)
 src/
   build.py          regenerates index.html from the sections
   sections/         the 10 homepage sections (edit these)
+library/            the librarian Worker source (deployed by hand — see STATUS)
+news/               the public SHEH News fork source (deployed by hand)
 ```
+(`.assetsignore` keeps src/, the docs, and the worker sources off the live site.)
 
 ## Editing
 1. Edit a file in `src/sections/` (or a room page directly).
