@@ -104,7 +104,10 @@ for g in all_glob:
     if g.strip() not in seen:
         seen.add(g.strip()); glob_u.append(g)
 
-nav = '\n      '.join('<a href="#' + sid + '">' + label + '</a>'
+# menu points Our Story / The Creed at the room pages (like every other page's
+# menu); the door panels stay in the scroll journey
+NAV_HREF = {'story': 'our-story.html', 'creed': 'the-creed.html'}
+nav = '\n      '.join('<a href="' + NAV_HREF.get(sid, '#' + sid) + '">' + label + '</a>'
                      for sid, label, _ in SECTIONS if label)
 
 BASE = """  *{ margin:0; padding:0; box-sizing:border-box; }

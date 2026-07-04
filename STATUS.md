@@ -186,7 +186,16 @@ build integrity, fallbacks, a11y, docs). Everything green after these fixes:
   all library-fed rendering escaped or regex-validated (no XSS paths); every page keeps a
   sane fallback with the library unreachable; the librarian's /reorder preserves unlisted
   items, so the Studio's empty-ids PIN ping is a true no-op.
-- **Proposals (not applied — Reyngoe's call):** homepage overlay/footer send Our Story /
-  The Creed to the door panels rather than the room pages (PENDING has this as optional);
-  the manuscripts bucket grid forces 3 columns at ≥720px, leaving the 4th shelf tile alone
-  on its own row — could go 2×2 or 4-across.
+- **Proposals — both APPROVED and applied same day (see follow-ups below).**
+
+## Audit follow-ups (July 3 2026 — approved by Reyngoe)
+- **Home-pill chrome parity:** the fixed top-left "← Home" pill (as on Our Story / The
+  Creed) now lives on all three data-driven rooms too — identical markup/position/behavior,
+  accent swapped per room (deep variants: Manuscripts #8A4A18, Illuminations #264760,
+  Long Take #355A20). Homepage gets no pill. Rule locked into CLAUDE.md: interior chrome =
+  hamburger + overlay + footer + studio loader + Home pill in the room's accent.
+- **Manuscripts bucket grid:** wide widths now show a balanced 2×2 (repeat(2,1fr)) instead
+  of 3+1 with TALES stranded alone.
+- **Homepage menu consistency:** overlay + footer point Our Story / The Creed at
+  our-story.html / the-creed.html, matching every other page's menu. Door panels stay in
+  the scroll journey.

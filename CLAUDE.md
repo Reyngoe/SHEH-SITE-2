@@ -49,9 +49,15 @@ STATUS.md and PENDING.md are living. Update them the moment a decision locks —
 discipline Site 1 runs. Don't let them drift behind the real state.
 
 ## Interior-page chrome (LOCKED convention — added July 2026)
-- EVERY interior page carries the homepage chrome: the fixed hamburger (menu-btn + menu-overlay;
-  room links point at the room pages, News/Social/Join at index.html#anchors) and the full site
-  footer (`.site-foot`, scoped styles so room ornaments are untouched). No page strands the visitor.
+- EVERY interior page carries the full chrome: the fixed hamburger (menu-btn + menu-overlay;
+  room links point at the room pages, News/Social/Join at index.html#anchors), the full site
+  footer (`.site-foot`, scoped styles so room ornaments are untouched), the `#studio` loader,
+  and the fixed top-left "← Home" pill in the room's accent (deep variant on parchment:
+  Manuscripts #8A4A18, Illuminations #264760, Long Take #355A20, Our Story #6E4A12,
+  The Creed #6E2A20). The homepage gets no pill — it IS home. No page strands the visitor.
+- The homepage menu-overlay and footer point Our Story / The Creed at the room pages
+  (our-story.html / the-creed.html), same as every other page's menu; the other links stay
+  on-page #anchors. The door panels remain in the scroll journey.
 - Homepage section grids never collapse below their frame floor (Illuminations 4, Long Take 4;
   Manuscripts always shows its four shelf tiles): real library items fill from the front; the
   section's own "developing" fallback plates pad the remainder. Any new section follows the same

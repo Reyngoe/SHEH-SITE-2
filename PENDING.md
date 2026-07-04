@@ -47,6 +47,7 @@ _Note: the three room items below were absorbed by the **Content Library** proje
 - [ ] **Provisions / supplement concept** — parked pending product dev + IP groundwork.
 
 ## OPTIONAL / NICE-TO-HAVE
-- [ ] Footer "Our Story" / "The Creed" currently jump to the door panels; could point straight
-      to the room pages.
+- [x] Footer "Our Story" / "The Creed" currently jump to the door panels; could point straight
+      to the room pages. DONE (July 3 2026): homepage overlay + footer now point both at the
+      room pages, matching every other page's menu.
 - [ ] **Old Man Roy** AI chatbot (separate project; shares the Worker + API engine).
