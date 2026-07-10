@@ -1,1 +1,14 @@
-{"name":"sheh-site-2","compatibility_date":"2026-06-01","assets":{"directory":"."}}
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sheh-site-2",
+  "compatibility_date": "2026-07-02",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "."
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
